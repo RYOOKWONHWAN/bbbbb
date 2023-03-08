@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="members">
+ 
+    <!-- 회원가입 -->
+    <insert id="insertMember" parameterType="member.dto.MembersDTO">
+      <![CDATA[
+         INSERT INTO admin_data(admin_id, admin_password,admin_name)
+         VALUES(#{id}, #{pw}, #{name})  
+                 
+      ]]>
+    </insert>
+   
+ </mapper>   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
