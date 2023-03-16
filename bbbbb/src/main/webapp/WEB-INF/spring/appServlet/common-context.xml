@@ -38,7 +38,7 @@
 			value="oracle.jdbc.OracleDriver" />
 		<property name="url"
 			value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
-		<property name="username" value="hr2" />
+		<property name="username" value="hr3" />
 		<property name="password" value="a1234" />
 	</bean>
 
