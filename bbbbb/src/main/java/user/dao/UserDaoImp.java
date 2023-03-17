@@ -35,9 +35,9 @@ public class UserDaoImp implements UserDAO{
 		
 	}
 	@Override
-	public int idcheck(String adminId) {
+	public int idcheck(String user_id) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("user.idcheck",user_id);
 	}
 
 }

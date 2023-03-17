@@ -80,7 +80,7 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginUser(@RequestParam("user_id") String user_id, @RequestParam("user_pw") String user_pw,
 			HttpSession session, HttpServletResponse resp) {
-		
+
 		AuthInfo login = new AuthInfo(user_id, user_pw);
 		UserDTO dto = userService.loginProcess(login);
 		if (dto != null) {
@@ -119,7 +119,7 @@ public class UserController {
 
 	// 아이디 중복체크
 	@RequestMapping(value = "/idcheck", method = RequestMethod.POST)
-	@ResponseBody
+	@ResponseBody  
 	public String idCheck(@RequestParam("id") String id) {
 		System.out.println("컨트롤러 실행");
 		System.out.println(id);
@@ -144,11 +144,6 @@ public class UserController {
 		return "info";
 	}
 
-	@RequestMapping(value = "/books/list")
-	public String booksList() {
-		return "books/list";
-	}
-
 	@RequestMapping(value = "/books/view")
 	public String booksView() {
 		return "books/view";
@@ -170,4 +165,5 @@ public class UserController {
 		}
 		return "my";
 	}
+
 }

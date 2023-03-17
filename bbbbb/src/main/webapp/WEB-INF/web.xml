@@ -45,7 +45,8 @@
 				/WEB-INF/spring/appServlet/common-context.xml
 				/WEB-INF/spring/appServlet/admin-context.xml
 				/WEB-INF/spring/appServlet/user-context.xml
-
+				/WEB-INF/spring/appServlet/map-context.xml
+				/WEB-INF/spring/appServlet/print-context.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

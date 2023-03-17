@@ -50,6 +50,8 @@
 			<list>
 				<value>classpath:mapper/adminMapper.xml</value>
 				<value>classpath:mapper/userMapper.xml</value>
+				<value>classpath:mapper/mapMapper.xml</value>
+				<value>classpath:mapper/printbookMapper.xml</value>
 			</list>
 		</property>
 	</bean>

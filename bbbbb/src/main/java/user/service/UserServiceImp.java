@@ -39,7 +39,7 @@ public class UserServiceImp implements UserService{
 //   public UserDTO
 	// 유저 정보 수정
 	@Override
-	public UserDTO updateUserProcess(String userId) {
+	public UserDTO updateUserProcess(String user_id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -53,15 +53,15 @@ public class UserServiceImp implements UserService{
 
 	// 유저 삭제
 	@Override
-	public AuthInfo deleteUserProcess(String userId) {
+	public AuthInfo deleteUserProcess(String user_id) {
 		// TODO Auto-generated method stub
 		return null;
 	}@Override
-	public int idcheck(String userId) {
+	public int idcheck(String user_id) {
 		// TODO Auto-generated method stub
 		System.out.println("서비스 실행됨");
-		System.out.println(userId);
-		return userDao.idcheck(userId);
+		System.out.println(user_id);
+		return userDao.idcheck(user_id);
 	}
 
 }

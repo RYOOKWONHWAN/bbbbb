@@ -16,7 +16,7 @@
 		
 		var addr = document.getElementById("member_addr");
 		var user_address= document.getElementById("user_address");
-		user_address.value=post.value+" "+addr.value+" "+extra.value;
+		user_address.value=post.value+" "+addr.value+"/"+extra.value;
 		console.log(user_address);
 		
 		var gender = document.getElementById("user_sex");

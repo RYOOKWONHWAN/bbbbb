@@ -150,7 +150,7 @@ public class AdminController {
 
 		} else {
 			dtos = adminService.printAdminService();
-			System.out.println("없음");
+			System.out.println(dtos.size());
 			model.addAttribute("dtos", dtos);
 		}
 		return "admin/admin";

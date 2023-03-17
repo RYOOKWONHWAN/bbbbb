@@ -16,7 +16,7 @@ public interface UserDAO {
 	
 	// 유저 삭제
 	public void deleteUser(UserDTO dto);
-	public int idcheck(String adminId);
+	public int idcheck(String user_id);
 	
 	
 }
