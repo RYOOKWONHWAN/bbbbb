@@ -18,4 +18,10 @@ public interface PrintService {
 	
 	//검색 결과 수
 	public int countService(String query,String option, String cate);
+	
+	public List<BookmanageDTO> nBookService(PageDTO pv);
+	public int nBookCountService();
+	
+	public List<BookmanageDTO> pBookService();
+	public int pBookCountService();
 }

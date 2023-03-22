@@ -28,7 +28,7 @@ public interface UserBookListDAO {
 	public int checkUserBooklistCount(UserBookListDTO udto);
 	
 	// 대출 신청
-	public void Borrow(UserBookListDTO udto,String keynum);
+	public void Borrow(UserBookListDTO udto);
 	
 	// 대출 연장
 	public void ReturnExtend(int borrow_keynum, int book_keynum);

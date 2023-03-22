@@ -60,7 +60,7 @@ public class UserBookListDaoImp implements UserBookListDAO{
 	
 	// 대출 신청
 	@Override
-	public void Borrow(UserBookListDTO udto, String keynum) {
+	public void Borrow(UserBookListDTO udto) {
 
 		sqlSession.insert("userBookList.borrow", udto);
 		sqlSession.update("userBookList.onBorrow", udto);

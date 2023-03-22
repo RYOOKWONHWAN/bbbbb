@@ -16,7 +16,7 @@
 				<a class="books_tab_4"
 					href="${pageContext.request.contextPath}/my/map">가까운 도서관</a>
 			</p>
-
+			<!-- 나이 이름 성별 -->
 
 			<!-- 내 정보 관리 -->
 			<div class="my_tab_cont_1 active">
@@ -25,19 +25,45 @@
 					<form class="address_form" id="changeAdd" method="post"
 						action="my/changeAdd">
 						<h4>주소 변경</h4>
-						<input id="member_post" type="text" placeholder="우편번호" readonly>
-						<button class="addr_btn" type="button">주소찾기</button>
-						<input id="member_addr" type="text" placeholder="주소" readonly>
-						<br> <input type="text" id="extra"
-							placeholder="상세 주소를 입력하세요."> <input type="hidden"
-							name=user_address id="user_address">
-						<h4>비밀번호 확인</h4>
-						<input type="password" placeholder="패스워드를 입력하세요."
-							id="user_password" name="user_password" /> <input type="text"
-							hidden="hidden" name="user_id"
-							value="${sessionScope.authInfo.user_id }">
+						<c:choose>
+							<c:when test="${not empty userDTO }">
+								<input id="member_post" type="text" placeholder="${post}"
+									readonly>
+								<button class="addr_btn" type="button">주소찾기</button>
+								<input id="member_addr" type="text" placeholder="${address}"
+									readonly>
+								<br>
+								<input type="text" id="extra" placeholder="${extra }">
+								<input type="hidden" name=user_address id="user_address">
+								<h4>비밀번호 확인</h4>
+								<input type="password" placeholder="패스워드를 입력하세요."
+									id="user_password" name="user_password" />
+								<input type="text" hidden="hidden" name="user_id"
+									value="${sessionScope.authInfo.user_id }">
+
+							</c:when>
+							<c:otherwise>
+								<input id="member_post" type="text" placeholder="우편번호" readonly>
+								<button class="addr_btn" type="button">주소찾기</button>
+								<input id="member_addr" type="text" placeholder="주소" readonly>
+								<br>
+								<input type="text" id="extra" placeholder="상세 주소를 입력하세요.">
+								<input type="hidden" name=user_address id="user_address">
+								<h4>비밀번호 확인</h4>
+								<input type="password" placeholder="패스워드를 입력하세요."
+									id="user_password" name="user_password" />
+								<input type="text" hidden="hidden" name="user_id"
+									value="${sessionScope.authInfo.user_id }">
+							</c:otherwise>
+
+						</c:choose>
+
+
 						<button type="submit">수정하기</button>
 					</form>
+					<input type="text" name="user_name" value="${userDTO.user_name }">
+					<input type="text" name="user_sex" value="${userDTO.user_sex}">
+					<input type="text" name="user_age" value="${userDTO.user_age}">
 				</div>
 
 				<p>- 비밀번호 변경</p>
@@ -64,13 +90,9 @@
 
 				<p>- 회원 탈퇴</p>
 				<div>
-					<form id="frm" method="post">
-						<c:if test="${not empty cbdto }">
-							<p>현재 대출/예약중인 도서가 있으면 회원 탈퇴는 불가능합니다.</p>
-						</c:if>
-						<c:if test="${empty cbdto }">
-							<button id="delete" type="submit">탈퇴</button>
-						</c:if>
+					<form class="delete_form" id="deletefrm" method="post"
+						action="my/delete">
+						<button type="submit">탈퇴</button>
 					</form>
 					<button id="cancel" type="button">취소</button>
 				</div>
@@ -100,12 +122,33 @@
 				var addr = document.getElementById('member_addr');
 				var extra = document.getElementById('extra');
 
+				var popupState = '${popupState}';
+				var popupMessage = '${popupMessage}';
+
+				if (popupState == "on") {
+					$(".popup>p").text(popupMessage);
+					$(".popup_back").addClass("on");
+				}
+
+				$(".popup>button").click(function() {
+					console.log("closed");
+					$(".popup_back").removeClass("on");
+					$("#err").addClass("on");
+				});
+
+				if (popupState == 'on') {
+					popupContent.text(popupMessage);
+					popup.addClass('on');
+					return false;
+
+				}
+
 				// 주소 변경. 변경한다. 
 				$('#changeAdd').submit(
 						function(event) {
 							console.log("제출됬다.")
 							$("#user_address").val(
-									post.value + ' ' + addr.value + ' '
+									post.value + ' ' + addr.value + '/'
 											+ extra.value);
 							console.log($("#user_address").val());
 

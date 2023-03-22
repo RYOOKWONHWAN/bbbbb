@@ -52,13 +52,13 @@ private UserBookListDAO userBookListDao;
 	
 	// 대출 신청
 	@Override
-	public boolean BorrowProcess(UserBookListDTO udto,String keynum) {
+	public boolean BorrowProcess(UserBookListDTO udto) {
 		int count = userBookListDao.checkUserBooklistCount(udto);
 		//4권 이상 대출/ 예약시 거절
 		if(count >= 4) {
 			return false;
 		}
-		userBookListDao.Borrow(udto,keynum);
+		userBookListDao.Borrow(udto);
 		return true;
 	}
 

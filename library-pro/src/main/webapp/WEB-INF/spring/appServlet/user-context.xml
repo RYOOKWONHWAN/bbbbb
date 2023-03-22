@@ -23,8 +23,10 @@
 		<property name="userNoticeDao" ref="userNoticeDao" />
 	</bean>
 	<!-- userController Bean 선언 -->
-	<bean class="user.controller.UserController">
-		<property name="userService" ref="userService" />
-		<property name="userNoticeService" ref="userNoticeService" />
-	</bean>
+   <bean class="user.controller.UserController">
+      <property name="userService" ref="userService" />
+      <property name="userNoticeService" ref="userNoticeService" />
+      <property name="userBookListService" ref="userBookListService" />
+   </bean>
+
 </beans>

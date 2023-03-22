@@ -54,4 +54,6 @@ public interface AdminDAO {
 	//pv값을 채우기 위한 관리자 전체수
 	public int countAdminAll();
 	
+	public int checkstate(String user_id);
+	
 }

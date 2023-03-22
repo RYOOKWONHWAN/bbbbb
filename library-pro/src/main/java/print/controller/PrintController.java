@@ -1,4 +1,4 @@
-	package print.controller;
+package print.controller;
 
 import java.util.List;
 
@@ -27,22 +27,20 @@ public class PrintController {
 		this.pdto = pdto;
 	}
 
-	@RequestMapping(value = "/books" ,method = RequestMethod.GET)
+	@RequestMapping(value = "/books", method = RequestMethod.GET)
 	public ModelAndView printbook(PageDTO pv, ModelAndView mav) {
 
 		int totalCount = printService.countAll(); // 전체 결과수
-		
-		
+
 		System.out.println(totalCount);
 		if (totalCount >= 1) {
 			if (pv.getCurrentPage() == 0)
 				pv.setCurrentPage(1);
 			this.pdto = new PageDTO(pv.getCurrentPage(), totalCount);
-			mav.addObject("pv", this.pdto); //pv 추가
+			mav.addObject("pv", this.pdto); // pv 추가
 
 		}
-		
-		
+
 		List<BookmanageDTO> printdtos = printService.printAll(this.pdto); // 전체 리스트 추가
 		System.out.println("시작" + pdto.getStartRow() + "끝" + pdto.getEndRow());
 		mav.addObject("printdtos", printdtos);
@@ -52,38 +50,65 @@ public class PrintController {
 
 	}
 
-	@RequestMapping(value = "/books/search"  , method = RequestMethod.GET)
+	@RequestMapping(value = "/books/search", method = RequestMethod.GET)
 	public String searchbook(PageDTO pv, Model model, @RequestParam("search_item") String option,
 			@RequestParam("query") String query, @RequestParam("categories") String cate) {
-		//query 는 검색어, cate 는 카테고리 값  option 은 옵션값		
-		
-		System.out.println("option" + option); 
-		System.out.println("query" + query);
-		System.out.println("cate" + cate);   // 리퀘스트 파람 결과값 출력
-		List<BookmanageDTO> search_result = null;   // 리스트 생성
+		// query 는 검색어, cate 는 카테고리 값 option 은 옵션값
 
-		if(query.equals("")) {           //확인
+		System.out.println("option" + option);
+		System.out.println("query" + query);
+		System.out.println("cate" + cate); // 리퀘스트 파람 결과값 출력
+		List<BookmanageDTO> search_result = null; // 리스트 생성
+
+		if (query.equals("")) { // 확인
 			System.out.println("쿼리값빔");
 		}
-		int totalCount = printService.countService(query, option, cate);  // 페이지네이션을 위한 결과 개수 가져오기
-		System.out.println(totalCount); 
+		int totalCount = printService.countService(query, option, cate); // 페이지네이션을 위한 결과 개수 가져오기
+		System.out.println(totalCount);
 		if (totalCount >= 1) {
 			if (pv.getCurrentPage() == 0)
 				pv.setCurrentPage(1);
-			this.pdto = new PageDTO(pv.getCurrentPage(), totalCount); 
+			this.pdto = new PageDTO(pv.getCurrentPage(), totalCount);
 			model.addAttribute("searchResultPv", this.pdto);// 검색 결과에 맞춘 pv 추가
 
 		}
-		search_result = printService.searchService(this.pdto, query, option, cate);  // 리스트 값 변경
+		search_result = printService.searchService(this.pdto, query, option, cate); // 리스트 값 변경
 		System.out.println(search_result.size());
-		model.addAttribute("search_result", search_result);  // 모델에 값추가
+		model.addAttribute("search_result", search_result); // 모델에 값추가
 		model.addAttribute("query", query); // 검색어
 		model.addAttribute("option", option); // 옵션
 		model.addAttribute("cate", cate); // 카테고리
-		model.addAttribute("count",totalCount); // 검색결과수
+		model.addAttribute("count", totalCount); // 검색결과수
 		return "books";
 
 	}
 
+	@RequestMapping(value = "/books/new")
+	public String newBook(Model model, PageDTO pv) {
+		int totalCount = printService.nBookCountService(); // 전체 결과수
+
+		System.out.println(totalCount);
+		if (totalCount >= 1) {
+			if (pv.getCurrentPage() == 0)
+				pv.setCurrentPage(1);
+			this.pdto = new PageDTO(pv.getCurrentPage(), totalCount);
+			model.addAttribute("pv",this.pdto); // pv 추가
+
+		}
+
+		List<BookmanageDTO> nbooklist= printService.nBookService(this.pdto); // 전체 리스트 추가
+		System.out.println("시작" + pdto.getStartRow() + "끝" + pdto.getEndRow());
+		System.out.println(nbooklist.size());
+		model.addAttribute("nbooklist",nbooklist);
+		return "books/new";
+	}
+
+	@RequestMapping(value = "/books/popular")
+	public String popularBook(Model model) {
+		List<BookmanageDTO> pbooklist=printService.pBookService();
+		System.out.println(pbooklist.size());
+		model.addAttribute("pbooklist",pbooklist);
+		return "books/popular";
+	}
 
 }

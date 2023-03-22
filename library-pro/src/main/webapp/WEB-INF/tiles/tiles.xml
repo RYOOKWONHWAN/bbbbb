@@ -56,16 +56,35 @@
 			value="/WEB-INF/views/books/list.jsp" />
 	</definition>
 
+	<definition name="books/new" extends="baseLayout">
+		<put-attribute name="title" value="통합도서조회 - 영원한도서관" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/books/new.jsp" />
+	</definition>
+
+	<definition name="books/popular" extends="baseLayout">
+		<put-attribute name="title" value="통합도서조회 - 영원한도서관" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/books/popular.jsp" />
+	</definition>
+
 	<definition name="books/view" extends="baseLayout">
 		<put-attribute name="title" value="통합도서조회 - 영원한도서관" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/books/view.jsp" />
 	</definition>
 
-	<definition name="request" extends="baseLayout">
+
+	<definition name="request/request" extends="baseLayout">
 		<put-attribute name="title" value="희망도서신청 - 영원한도서관" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/request/request.jsp" />
+	</definition>
+
+	<definition name="request/list" extends="baseLayout">
+		<put-attribute name="title" value="희망도서신청 - 영원한도서관" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/request/list.jsp" />
 	</definition>
 
 	<definition name="my/user" extends="baseLayout">
@@ -73,19 +92,19 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/my/user.jsp" />
 	</definition>
-		
+
 	<definition name="my" extends="baseLayout">
 		<put-attribute name="title" value="나의 도서관 - 회원 정보 관리" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/my/my.jsp" />
 	</definition>
-		
+
 	<definition name="my/record" extends="baseLayout">
 		<put-attribute name="title" value="나의 도서관 - 도서관 이용 이력" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/my/record.jsp" />
 	</definition>
-		
+
 	<definition name="my/recommend" extends="baseLayout">
 		<put-attribute name="title" value="나의 도서관 - 맞춤추천도서" />
 		<put-attribute name="content"

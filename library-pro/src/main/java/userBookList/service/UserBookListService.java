@@ -24,7 +24,7 @@ public interface UserBookListService {
 	public String ReserveExistenceProcess(int borrow_keynum);
 	
 	// 대출 신청
-	public boolean BorrowProcess(UserBookListDTO udto,String keynum);
+	public boolean BorrowProcess(UserBookListDTO udto);
 	
 	// 대출 연장
 	public void ExtendReturnProcess(int borrow_keynum, int book_keynum);

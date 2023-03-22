@@ -141,5 +141,11 @@ public class AdminDaoImp implements AdminDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("admin.countUserAll");
 	}
+	
+	@Override
+	public int checkstate(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("checkstate",user_id);
+	}
 
 }

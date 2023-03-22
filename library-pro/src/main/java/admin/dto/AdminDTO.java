@@ -4,7 +4,7 @@ public class AdminDTO {
 	private String admin_id;
 	private String admin_password;
 	private String admin_name;
-	
+	private String admin_keynum;
 	public AdminDTO() {
 	}
 	
@@ -32,7 +32,20 @@ public class AdminDTO {
 
 	public void setadmin_name(String admin_name) {
 		this.admin_name = admin_name;
+	}
+
+
+
+	public String getAdmin_keynum() {
+		return admin_keynum;
+	}
+
+
+
+	public void setAdmin_keynum(String admin_keynum) {
+		this.admin_keynum = admin_keynum;
 	}	
+	
 
 }
 

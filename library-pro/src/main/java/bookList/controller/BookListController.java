@@ -59,6 +59,10 @@ public class BookListController {
 	
 	@RequestMapping(value = "/books/writeRev", method = RequestMethod.POST)
 	public String writeRevExecute(@RequestParam("isbn") String isbn, bookList.dto.BookReviewDTO dto, HttpServletResponse response, HttpSession session) {
+		if (session.getAttribute("authInfo") == null) {
+			return "redirect:/login"; // 관리자가 로그인이 되어있다면 회원가입 불가
+		}
+		
 		dto.setIsbn(isbn);
 		String id= dto.getUser_id();
 		System.out.println(id);
@@ -84,14 +88,19 @@ public class BookListController {
 	}
 	
 	@RequestMapping(value="/books/update", method = RequestMethod.POST)
-	public String updateRev(bookList.dto.BookReviewDTO dto) {
-		
+	public String updateRev(bookList.dto.BookReviewDTO dto, HttpSession session) {
+		if (session.getAttribute("authInfo") == null) {
+			return "redirect:/login"; // 관리자가 로그인이 되어있다면 회원가입 불가
+		}
 		bookListService.updateProcess(dto);
 		return "redirect:/books/view";
 	}
 	
 	@RequestMapping(value="/books/delete", method = RequestMethod.POST)
-	public String deleteRev(@RequestParam("review_keynum") int review_keynum) {
+	public String deleteRev(@RequestParam("review_keynum") int review_keynum, HttpSession session) {
+		if (session.getAttribute("authInfo") == null) {
+			return "redirect:/login"; // 관리자가 로그인이 되어있다면 회원가입 불가
+		}
 		bookListService.deleteProcess(review_keynum);
 		return "redirect:/books/view";
 	}

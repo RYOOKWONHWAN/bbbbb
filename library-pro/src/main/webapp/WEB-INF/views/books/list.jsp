@@ -7,13 +7,14 @@
 	<div class="inner">
 		<h2>통합도서조회</h2>
 		<div class="contents books_cont">
-			<c:set var="index" value="${1}" />
-
 
 			<p class="books_tab">
-				<a class="books_tab_1 active" href="#list">도서조회</a> · <a
-					class="books_tab_2" href="#new">신착도서</a> · <a class="books_tab_3"
-					href="#popular">인기도서</a>
+				<a class="books_tab_1 active"
+					href="${pageContext.request.contextPath}/books">도서조회</a> · <a
+					class="books_tab_2"
+					href="${pageContext.request.contextPath}/books/new">신착도서</a> · <a
+					class="books_tab_3"
+					href="${pageContext.request.contextPath}/books/popular">인기도서</a>
 			</p>
 
 
@@ -174,11 +175,6 @@
 							</c:forEach>
 						</c:when>
 					</c:choose>
-
-
-
-
-
 
 					<div class="pagination_area">
 						<ul class="pagination">
@@ -371,33 +367,19 @@
 										</c:otherwise>
 									</c:choose>
 								</c:when>
-
-
-
 							</c:choose>
 
 							<!-- 마지막 출력 끝 -->
 
 						</ul>
 					</div>
-
 				</div>
 
 
 				<div class="books_tab_cont_2">
-					<%
-					out.flush();
-					RequestDispatcher dispatcher1 = request.getRequestDispatcher("new.jsp");
-					dispatcher1.include(request, response);
-					%>
 				</div>
 
 				<div class="books_tab_cont_3">
-					<%
-					out.flush();
-					RequestDispatcher dispatcher2 = request.getRequestDispatcher("popular.jsp");
-					dispatcher2.include(request, response);
-					%>
 				</div>
 			</div>
 		</div>
@@ -424,42 +406,6 @@
 		$('.bn_input').val($(this).attr('class').split('_')[1]);
 		$(this).addClass('active');
 	})
-
-	$('.books_tab_1').on('click', function() {
-		if (!$('.books_tab_cont_1').hasClass('active')) {
-			$('.books_tab_1').addClass('active');
-			$('.books_tab_2').removeClass('active');
-			$('.books_tab_3').removeClass('active');
-
-			$('.books_tab_cont_1').addClass('active');
-			$('.books_tab_cont_2').removeClass('active');
-			$('.books_tab_cont_3').removeClass('active');
-		}
-	});
-
-	$('.books_tab_2').on('click', function() {
-		if (!$('.books_tab_cont_2').hasClass('active')) {
-			$('.books_tab_2').addClass('active');
-			$('.books_tab_1').removeClass('active');
-			$('.books_tab_3').removeClass('active');
-
-			$('.books_tab_cont_2').addClass('active');
-			$('.books_tab_cont_1').removeClass('active');
-			$('.books_tab_cont_3').removeClass('active');
-		}
-	});
-
-	$('.books_tab_3').on('click', function() {
-		if (!$('.books_tab_cont_3').hasClass('active')) {
-			$('.books_tab_3').addClass('active');
-			$('.books_tab_1').removeClass('active');
-			$('.books_tab_2').removeClass('active');
-
-			$('.books_tab_cont_3').addClass('active');
-			$('.books_tab_cont_1').removeClass('active');
-			$('.books_tab_cont_2').removeClass('active');
-		}
-	});
 
 	function sendData(value) {
 		var category = document.getElementById("categories");

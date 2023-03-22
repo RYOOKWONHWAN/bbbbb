@@ -22,7 +22,7 @@
 		FROM user_data
 		WHERE user_id =
 		#{user_id,jdbcType=VARCHAR} AND user_password=#{user_password ,
-		jdbcType=VARCHAR}
+		jdbcType=VARCHAR} and BIGO='0'
 	</select>
 	<select id="idcheck" parameterType="string" resultType="int">
 		SELECT
@@ -30,6 +30,7 @@
 		FROM user_data
 		WHERE user_id =
 		#{user_id,jdbcType=VARCHAR}
+		and bigo='0'
 	</select>
 	<select id="selectByUserIdString" parameterType="string"
 		resultType="user.dto.UserDTO">
@@ -37,6 +38,7 @@
 		FROM user_data
 		WHERE user_id =
 		#{user_id,jdbcType=VARCHAR}
+		and bigo='0'
 	</select>
 	<select id="getKeynum" parameterType="string"
 		resultType="string">
@@ -44,6 +46,7 @@
 		from user_data
 		where
 		user_id=#{user_id,jdbcType=VARCHAR}
+		and bigo='0'
 
 	</select>
 
@@ -53,6 +56,7 @@
 		SET
 		user_address = #{user_address}
 		WHERE user_id = #{user_id}
+		and bigo='0'
 	</update>
 
 	<!-- 회원 정보 수정 -->
@@ -61,14 +65,60 @@
 		SET
 		user_password = #{user_password}
 		WHERE user_id = #{user_id}
+		and bigo='0'
 	</update>
 
 	<!-- 회원 탈퇴 -->
-	<delete id="deleteUser" parameterType="string">
-		DELETE
-		FROM user_data
-		WHERE
-		user_id = #{user_id}
-	</delete>
+
+	<select id="checkBook" parameterType="string" resultType="int">
+		select
+		count(*)
+		from user_booklist x , user_data y
+		where x.user_keynum =
+		y.user_keynum and y.user_id=#{user_id}
+		and borrow_state !='반납'
+	</select>
+
+	<update id="deleteUser" parameterType="string">
+		update user_data
+		set bigo =
+		'1'
+		WHERE user_keynum = #{user_keynum}
+	</update>
+	<select id="pbookprint"
+		resultType="admin.bookmanage.dto.BookmanageDTO">
+
+		SELECT a.*, b.avg_rating ,b.countisbn ,c.book_keynum
+		FROM
+		booklist a, (SELECT isbn, AVG(star_num) AS avg_rating,
+		count(star_num)
+		as countisbn
+		FROM book_review
+		GROUP BY isbn)b , (
+		SELECT book_keynum,
+		COUNT(*) AS return_count
+		FROM user_booklist
+		WHERE borrow_state = '반납'
+		GROUP BY book_keynum
+		ORDER BY return_count DESC
+		)c
+		WHERE a.isbn =
+		b.isbn(+) and a.book_keynum = c.book_keynum
+	 and <![CDATA[ROWNUM <= 5]]>
+	</select>
+
+	<select id="nbookprint"
+		resultType="admin.bookmanage.dto.BookmanageDTO">
+		SELECT *
+		FROM (
+		SELECT *
+		FROM BOOKLIST
+		WHERE receive_date >= add_months(sysdate, -1)
+		ORDER BY dbms_random.value -- 랜덤한 숫자 생성
+		)
+		where  <![CDATA[ROWNUM <= 6]]>
+
+	</select>
+
 
 </mapper>

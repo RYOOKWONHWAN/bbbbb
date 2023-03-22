@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import admin.bookmanage.dto.BookmanageDTO;
+import admin.dto.AdminDTO;
 import admin.notice.dto.NoticeDTO;
 import admin.notice.dto.PageDTO;
 import admin.notice.file.FileUpload;
@@ -40,18 +41,22 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value="/admin/notice")
-	public ModelAndView listExecute(PageDTO pv, ModelAndView mav) {
-		int totalCount = noticeService.countProcess();  //전체 수 카운트
-		mav.addObject("totalCount2", totalCount); //추가
+	public ModelAndView listExecute(PageDTO pv, ModelAndView mav, HttpSession session) {
+		
+		String admin_keynum = (String) session.getAttribute("adminKeynum");
+		System.out.println("admin_keynum :" + admin_keynum);
+		
+		int totalCount = noticeService.countProcess();
+		mav.addObject("totalCount2", totalCount);
 		System.out.println(totalCount);
 		
 		if(totalCount>=1) {
 			if(pv.getCurrentPage()==0)
 				pv.setCurrentPage(1);
 			this.pdto = new PageDTO(pv.getCurrentPage(), totalCount);
-			mav.addObject("pv", this.pdto); //pv 
-			mav.addObject("Number", pdto.getNumber()); // 번호
-			mav.addObject("aList", noticeService.listProcess(this.pdto)); // 전체 리스트 추가 
+			mav.addObject("pv", this.pdto);
+			mav.addObject("Number", pdto.getNumber());
+			mav.addObject("aList", noticeService.listProcess(this.pdto));
 		} else {
 			mav.addObject("totalCount", totalCount);
 		}
@@ -80,8 +85,8 @@ public class NoticeController {
 		         if (pv.getCurrentPage() == 0) 
 		            pv.setCurrentPage(1);
 		         this.pdto = new PageDTO(pv.getCurrentPage(), totalCount, searchword, option);
-		         model.addAttribute("searchPv", this.pdto); // 검색 결과수에 맞춘 pv
-		         model.addAttribute("Number", pdto.getNumber()); // 번호
+		         model.addAttribute("searchPv", this.pdto);
+		         model.addAttribute("Number", pdto.getNumber());
 		         System.out.println("현재페이지 :"+ pdto.getCurrentPage());
 		          System.out.println("총 레코드수 :"+ pdto.getTotalCount());
 		          System.out.println("총 페이지수 :"+ pdto.getTotalPage());
@@ -92,10 +97,10 @@ public class NoticeController {
 		          System.out.println("리스트에서 출력번호(rownum) :"+ pdto.getNumber());
 
 		      }
-		      dtos = noticeService.searchListProcess(this.pdto); //검색결과 리스트 
-		      model.addAttribute("aList", dtos); //리스트 추가
-		      model.addAttribute("query",searchword); // 검색어
-		      model.addAttribute("option",option); // 검색 옵션
+		      dtos = noticeService.searchListProcess(this.pdto);
+		      model.addAttribute("aList", dtos);
+		      model.addAttribute("query",searchword);
+		      model.addAttribute("option",option);
 		      return "admin/notice";
 		   }	
 	
@@ -124,19 +129,24 @@ public class NoticeController {
 //	}	
 
 	@RequestMapping(value="/admin/notice/write", method=RequestMethod.POST)
-	public String writeProExcute(NoticeDTO dto, HttpServletRequest req) {
-		MultipartFile file = dto.getFilename(); //파일 이름 
-		MultipartFile img = dto.getImgname(); //이미지 이름
+	public String writeProExcute(NoticeDTO dto, HttpServletRequest req, HttpSession session) {
+		
+		String admin_keynum = (String) session.getAttribute("adminKeynum");
+		dto.setAdmin_keynum(admin_keynum);
+		System.out.println("admin_keynum :" + admin_keynum);
+		
+		MultipartFile file = dto.getFilename();
+		MultipartFile img = dto.getImgname();
 
 		//첨부파일이 있으면
 		if(!file.isEmpty()) {
-			UUID random = FileUpload.saveCopyFile(file, req); //저장된
+			UUID random = FileUpload.saveCopyFile(file, req);
 			dto.setUpload_file(random + "_" + file.getOriginalFilename());	
 		}
 
 		//사진첨부가 있으면
 		if(!img.isEmpty()) {
-			UUID random = FileUpload.saveCopyImg(img, req); // 이미지 저장된거
+			UUID random = FileUpload.saveCopyImg(img, req);
 			dto.setUpload_img(random + "_" + img.getOriginalFilename());	
 		}
 
@@ -161,8 +171,12 @@ public class NoticeController {
 //	}
 
 	@RequestMapping(value = "admin/notice/update", method=RequestMethod.POST)                              
-	public String updateExecute(NoticeDTO dto, Integer currentPage, HttpServletRequest req, RedirectAttributes ratt) {
+	public String updateExecute(NoticeDTO dto, Integer currentPage, HttpServletRequest req, RedirectAttributes ratt, HttpSession session) {
 
+		String admin_id = (String) session.getAttribute("adminID");
+		dto.setAdmin_id(admin_id);
+		System.out.println("admin_id :" + admin_id);
+		
 		System.out.println(dto.getNum());
 		
 		MultipartFile file = dto.getFilename();

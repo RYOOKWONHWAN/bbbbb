@@ -1,5 +1,8 @@
 package user.service;
 
+import java.util.List;
+
+import admin.bookmanage.dto.BookmanageDTO;
 import user.dao.UserDAO;
 import user.dto.AuthInfo;
 import user.dto.UserDTO;
@@ -88,9 +91,25 @@ public class UserServiceImp implements UserService {
 	}
 
 	// 유저 삭제
+   @Override
+   public void deleteUserProcess(String user_keynum) {
+      userDao.deleteUser(user_keynum);
+   }
+
 	@Override
-	public void deleteUserProcess(String user_id) {
-		userDao.deleteUser(user_id);
+	public int checkBookProcess(String user_id) {
+		return userDao.checkBook(user_id);
 	}
+	@Override
+	public List<BookmanageDTO> nbookprintService() {
+		// TODO Auto-generated method stub
+		return userDao.nbookprint();
+	}
+	@Override
+	public List<BookmanageDTO> pbookprintService() {
+		// TODO Auto-generated method stub
+		return userDao.pbookprint();
+	}
+
 
 }

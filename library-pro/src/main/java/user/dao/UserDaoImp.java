@@ -1,7 +1,10 @@
 package user.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 
+import admin.bookmanage.dto.BookmanageDTO;
 import user.dto.AuthInfo;
 import user.dto.UserDTO;
 
@@ -57,9 +60,27 @@ public class UserDaoImp implements UserDAO {
 
 	}
 
+	// 유저 삭제
+    @Override
+    public void deleteUser(String user_keynum) {
+      sqlSession.update("user.deleteUser", user_keynum);
+    }
+
+    // 
 	@Override
-	public void deleteUser(String user_id) {
-		sqlSession.delete("user.deleteUser", user_id);
+	public int checkBook(String user_id) {
+		
+	return sqlSession.selectOne("user.checkBook",user_id);
 	}
+    @Override
+    public List<BookmanageDTO> nbookprint() {
+    	// TODO Auto-generated method stub
+    	return sqlSession.selectList("user.nbookprint");
+    }@Override
+    public List<BookmanageDTO> pbookprint() {
+    	// TODO Auto-generated method stub
+    	return sqlSession.selectList("user.pbookprint");
+    }
+    
 
 }

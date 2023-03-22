@@ -36,4 +36,26 @@ public class PrintServiceImp implements PrintService{
 		// TODO Auto-generated method stub
 		return printDao.count(query, option, cate);
 	}
+	@Override
+	public List<BookmanageDTO> nBookService(PageDTO pv) {
+		// TODO Auto-generated method stub
+		return printDao.nBook(pv);
+	}
+	@Override
+	public int nBookCountService() {
+		// TODO Auto-generated method stub
+		return printDao.nBookCount();
+	}
+	@Override
+	public int pBookCountService() {
+		// TODO Auto-generated method stub
+		return printDao.pBookCount();
+	}
+	
+	
+	@Override
+	public List<BookmanageDTO> pBookService() {
+		// TODO Auto-generated method stub
+		return printDao.pBook();
+	}
 }

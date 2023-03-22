@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
-	
 </script>
 
 
@@ -82,7 +81,8 @@
 
 						<c:when test="${not empty searchdtos }">
 
-							<c:set var="searchNum" value="${number}" />
+							
+
 							<c:forEach var="dto" items="${searchdtos }" varStatus="status">
 
 								<!-- 반복 -->
@@ -115,7 +115,7 @@
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary"
 															data-bs-dismiss="modal">취소</button>
-														<form action="deleteUser" method="post">
+														<form id="del" action="deleteUser" method="post">
 															<input type="hidden" name="user_id" value=${dto.user_id }>
 															<button type="submit" class="btn btn-danger">직권탈퇴</button>
 														</form>
@@ -166,7 +166,7 @@
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary"
 															data-bs-dismiss="modal">취소</button>
-														<form action="deleteUser" method="post">
+														<form id = "del2" action="deleteUser" method="post">
 															<input type="hidden" name="user_id" value=${dto.user_id }>
 															<button type="submit" class="btn btn-danger">직권탈퇴</button>
 														</form>

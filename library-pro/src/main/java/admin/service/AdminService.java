@@ -52,7 +52,7 @@ public interface AdminService {
 	public int countAdminAllService();
 	
 	
-	
+	public int checkstateService(String user_id);
 	
 	
 	

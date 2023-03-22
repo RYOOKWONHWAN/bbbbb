@@ -1,5 +1,8 @@
 package user.service;
 
+import java.util.List;
+
+import admin.bookmanage.dto.BookmanageDTO;
 import user.dto.AuthInfo;
 import user.dto.UserDTO;
 
@@ -36,5 +39,9 @@ public interface UserService {
 	public AuthInfo updatePassProcess(UserDTO dto);
 
 	// 유저 삭제
-	public void deleteUserProcess(String user_id);
+	public int checkBookProcess(String user_id);
+	
+	  public void deleteUserProcess(String user_keynum);
+	public List<BookmanageDTO> pbookprintService();
+	public List<BookmanageDTO> nbookprintService();
 }

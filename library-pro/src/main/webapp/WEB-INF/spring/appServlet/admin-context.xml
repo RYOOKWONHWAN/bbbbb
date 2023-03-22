@@ -7,13 +7,23 @@
 	<property name="sqlSession" ref="sqlSession" />
 </bean>
 
+<bean id="borrowDao" class="admin.borrow.dao.BorrowDaoImp">
+	<property name="sqlSession" ref="sqlSession" />
+</bean>
+
 <!-- adminServiceImp Bean 선언 -->
 <bean id="adminService" class="admin.service.AdminServiceImp">
 	<property name="adminDao" ref="adminDao" />
 </bean>
 
+<bean id="borrowService" class="admin.borrow.service.BorrowServiceImp">
+	<property name="borrowDao" ref="borrowDao" />
+</bean>
+
+
 <!-- adminController Bean 선언 -->
 <bean class="admin.controller.AdminController" >
 	<property name="adminService" ref="adminService" />
+	<property name="borrowService" ref="borrowService" />
 </bean>
 </beans>

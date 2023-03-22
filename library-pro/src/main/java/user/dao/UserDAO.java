@@ -1,5 +1,8 @@
 package user.dao;
 
+import java.util.List;
+
+import admin.bookmanage.dto.BookmanageDTO;
 import user.dto.AuthInfo;
 import user.dto.UserDTO;
 
@@ -25,6 +28,11 @@ public interface UserDAO {
 	public void updatePass(UserDTO dto);
 
 	// 유저 삭제
-	public void deleteUser(String user_id);
-
+	public int checkBook(String user_id);
+	
+	public void deleteUser(String user_keynum);
+	
+	
+	public List<BookmanageDTO> pbookprint();
+	public List<BookmanageDTO> nbookprint();
 }

@@ -41,41 +41,16 @@
 		<div class="inner">
 			<h2>이번 달 인기 도서</h2>
 			<div class="book_inner">
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/01.jpg"
-						alt="책 표지">
-						<h4>슬램덩크 리소스-THE FIRST SLAM DUNK re:SOURCE</h4>
-						<p>이노우에 타케히코</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/02.jpg"
-						alt="책 표지">
-						<h4>불편한 편의점 2</h4>
-						<p>김호연</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/03.jpg"
-						alt="책 표지">
-						<h4>고양이 해결사 깜냥 5 - 편의점을 환하게 밝혀라!</h4>
-						<p>홍민정</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/04.jpg"
-						alt="책 표지">
-						<h4>2023 큰별쌤 최태성의 별★별한국사 한국사능력검정시험 심화(1, 2, 3급) 상</h4>
-						<p>최태성</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/05.jpg"
-						alt="책 표지">
-						<h4>마법천자문 57</h4>
-						<p>유대영</p>
-					</a>
-				</div>
+				<c:forEach var="dto" items="${plist}">
+					<div class="book_box">
+						<a
+							href="${pageContext.request.contextPath}/books/view?page=${dto.isbn}">
+							<img src="${dto.thumbnail }" alt="책 표지">
+							<h4>${dto.title }</h4>
+							<p>${dto.author }</p>
+						</a>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</article>
@@ -84,48 +59,16 @@
 		<div class="inner">
 			<h2>신착 도서</h2>
 			<div class="book_inner">
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/01.jpg"
-						alt="책 표지">
-						<h4>슬램덩크 리소스-THE FIRST SLAM DUNK re:SOURCE</h4>
-						<p>이노우에 타케히코</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/02.jpg"
-						alt="책 표지">
-						<h4>불편한 편의점 2</h4>
-						<p>김호연</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/03.jpg"
-						alt="책 표지">
-						<h4>고양이 해결사 깜냥 5 - 편의점을 환하게 밝혀라!</h4>
-						<p>홍민정</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/04.jpg"
-						alt="책 표지">
-						<h4>2023 큰별쌤 최태성의 별★별한국사 한국사능력검정시험 심화(1, 2, 3급) 상</h4>
-						<p>최태성</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/05.jpg"
-						alt="책 표지">
-						<h4>마법천자문 57</h4>
-						<p>유대영</p>
-					</a>
-				</div>
-				<div class="book_box">
-					<a href="#"> <img src="/myapp/resources/assets/images/03.jpg"
-						alt="책 표지">
-						<h4>고양이 해결사 깜냥 5 - 편의점을 환하게 밝혀라!</h4>
-						<p>홍민정</p>
-					</a>
-				</div>
+				<c:forEach var="dto" items="${nlist}">
+					<div class="book_box">
+						<a
+							href="${pageContext.request.contextPath}/books/view?page=${dto.isbn}">
+							<img src="${dto.thumbnail }" alt="책 표지">
+							<h4>${dto.title }</h4>
+							<p>${dto.author }</p>
+						</a>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</article>

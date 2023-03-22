@@ -49,7 +49,7 @@
 					소식</a></li>
 			<li><a href="${pageContext.request.contextPath}/info">이용안내</a></li>
 			<li><a href="${pageContext.request.contextPath}/books">통합도서조회</a></li>
-			<li><a href="${pageContext.request.contextPath}/request">희망도서신청</a></li>
+			<li><a href="${pageContext.request.contextPath}/request/request">희망도서신청</a></li>
 			<li><a href="${pageContext.request.contextPath}/my">나의 도서관</a></li>
 
 			<li class="sign_area_mob">

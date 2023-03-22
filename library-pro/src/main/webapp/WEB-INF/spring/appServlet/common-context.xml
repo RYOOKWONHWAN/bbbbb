@@ -11,6 +11,8 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/admin/**" />
+
+
 			<mvc:exclude-mapping path="/admin" />
 			<mvc:exclude-mapping path="/admin/login" />
 			<mvc:exclude-mapping path="/admin/adminSignup" />
@@ -23,9 +25,13 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/mylibrary" />
 			<mvc:mapping path="/request" />
+			<mvc:mapping path="/my" />
 			<mvc:mapping path="/my/*" />
 			<mvc:mapping path="/books/writeRev" />
-		<!--유저 로그인 안할시 추가 -->
+			<mvc:mapping path="/books/update" />
+			<mvc:mapping path="/books/delete" />
+
+			<!--유저 로그인 안할시 추가 -->
 
 
 			<bean class="common.interceptor.AdminAuthCheckinterceptor" />
@@ -59,6 +65,7 @@
 				<value>classpath:mapper/adminnoticeMapper.xml</value>
 				<value>classpath:mapper/bookListMapper.xml</value>
 				<value>classpath:mapper/userBookListMapper.xml</value>
+				<value>classpath:mapper/userRequestMapper.xml</value>
 			</list>
 		</property>
 	</bean>

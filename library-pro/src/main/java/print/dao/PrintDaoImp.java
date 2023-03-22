@@ -78,4 +78,28 @@ public class PrintDaoImp implements PrintDAO {
 		
 		return sqlSession.selectOne("print.searchcount",paramMap);
 	}
+	
+	@Override
+	public List<BookmanageDTO> nBook(PageDTO pv) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("print.nBook",pv);
+	}
+	
+	@Override
+	public int nBookCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("print.nBookCount");
+	}
+	@Override
+	public List<BookmanageDTO> pBook() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("print.pBook");
+	}
+	@Override
+	public int pBookCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("print.pBookCount");
+	}
+	
+	
 }

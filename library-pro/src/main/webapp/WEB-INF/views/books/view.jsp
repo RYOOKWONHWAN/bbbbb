@@ -34,7 +34,7 @@ const popupShownKey = "popupShown";
 	  $(document).ready(function() {
 		console.log("로딩 완료.");
 		  const shouldShowPopup = sessionStorage.getItem(popupShownKey) === "true";
-		  if (shouldShowPopup && <%=popupMessage%>!==null) {
+		  if (shouldShowPopup && "<%=popupMessage%>"!=="null") {
 		    $(".popup>p").text("<%=popupMessage%>");
 							$(".popup_back").addClass("on");
 							popupShown = true;
@@ -215,7 +215,10 @@ const popupShownKey = "popupShown";
 							<form id="loan" name="loan" action="loan" method="post">
 								<input type="hidden" name="book_keynum"
 									value="${bldto.book_keynum }" /> <input type="hidden"
-									name="category_s" value="${bldto.category_s }" /> <input
+									name="category_s" value="${bldto.category_s }" /> 
+									<input type="hidden"
+									name="isbn" value="${bldto.isbn }" />
+									<input
 									type="hidden" name="loan_state" value="${bldto.loan_state }" />
 								<input type="hidden" name="borrow_state"
 									value="${bldto.borrow_state }" />
@@ -224,6 +227,8 @@ const popupShownKey = "popupShown";
 						</c:when>
 						<c:when test="${bldto.borrow_state == 'Y' }">
 							<form id="reserve" name="reserve" action="borrow" method="post">
+							<input type="hidden"
+									name="isbn" value="${bldto.isbn }" />
 								<input type="hidden" name="book_keynum"
 									value="${bldto.book_keynum }" /> <input type="hidden"
 									name="category_s" value="${bldto.category_s }" /> <input

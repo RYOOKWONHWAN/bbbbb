@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import admin.bookmanage.dto.BookmanageDTO;
 import admin.dto.AdminDTO;
 import admin.dto.adminAuthInfo;
 import user.dao.UserDAO;
@@ -23,6 +25,7 @@ import user.dto.UserDTO;
 import user.notice.dto.NoticeDTO;
 import user.notice.service.NoticeService;
 import user.service.UserService;
+import userBookList.service.UserBookListService;
 
 //http://localhost:8090/myapp
 
@@ -32,6 +35,7 @@ public class UserController {
 	private UserService userService;
 	private UserDAO userdao;
 	private NoticeService userNoticeService;
+	private UserBookListService userBookListService;
 
 	public UserController() {
 
@@ -44,6 +48,10 @@ public class UserController {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+	
+	public void setUserBookListService(UserBookListService userBookListService) {
+		this.userBookListService = userBookListService;
+	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView main(ModelAndView mav) {
@@ -51,7 +59,13 @@ public class UserController {
 		List<NoticeDTO> mainFiveDTO = userNoticeService.latestFiveProcess(); // 공지사항 5개 출력
 		// System.out.println(mainDTO.getNum());
 		// System.out.println(mainDTO.getTitle());
-
+		List<BookmanageDTO> plist= userService.pbookprintService();
+		List<BookmanageDTO> nlist= userService.nbookprintService();
+		
+		System.out.println(plist.size() +"_" + nlist.size());
+		
+		mav.addObject("nlist",nlist);
+		mav.addObject("plist",plist);
 		// mav.addObject("currentPage", 1);
 		mav.addObject("latestOne", mainOneDTO); // 추가
 		mav.addObject("latestFive", mainFiveDTO); // 추가
@@ -170,12 +184,29 @@ public class UserController {
 		}
 		return "request";
 	}
+	@RequestMapping(value = "/my")
+	public String my(HttpSession session, Model model) {
+		AuthInfo ai= (AuthInfo) session.getAttribute("authInfo");
+		UserDTO userDTO = userService.selectUserProcess(ai.getUser_id());
+		
+		model.addAttribute("userDTO",userDTO);
+		String addr= userDTO.getUser_address();
+		String post=addr.split(" ")[0];
+		String address=addr.substring(6);
+		
+		String adx=address.split("/")[0];
+		String extra=address.split("/")[1];
+		System.out.println(addr);
+		System.out.println(address);
+		System.out.println(post);
 
-
-	@RequestMapping(value = "/my/record")
-	public String record() {
-		return "my/record";
+		model.addAttribute("post",post);
+		model.addAttribute("address",adx);
+		model.addAttribute("extra",extra);
+		
+		return "my";
 	}
+
 
 	@RequestMapping(value = "/my/recommend")
 	public String recommend() {
@@ -214,23 +245,44 @@ public class UserController {
 //	}
 
 	// 회원 탈퇴 요청
-	@RequestMapping(value = "/my/delete", method = RequestMethod.POST)
-	public String deleteUser(HttpSession session, Model mod) {
-		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-//		if(!userBookListService.CurrBorrowListProcesss(authInfo.getUser_id()).isEmpty()) {
-//			System.out.println(!userBookListService.CurrBorrowListProcesss(authInfo.getUser_id()).isEmpty());
-//			String popupState = "on";
-//			String popupMessage = "넌 못지나간다";
-//			
-//			mod.addAttribute("popupState", popupState);
-//			mod.addAttribute("popupMessage", popupMessage);
-//			return "redirect:/my/withdraw";
-//		}
+	   @RequestMapping(value = "/my/delete", method = RequestMethod.POST)
+	   public String deleteUser(HttpSession session, Model mod, HttpServletResponse resp) {
+	      AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+	      int chk=userService.checkBookProcess(authInfo.getUser_id());
+	      String user_keynum=(String)session.getAttribute("keynum");
+	  	if(chk == 0) {
+			System.out.println("가능");
+			userService.deleteUserProcess(user_keynum);
+			session.invalidate();
+			return "redirect:/";
+		}else {
+			resp.setContentType("text/html;charset=UTF-8");
+			PrintWriter out;
+			try {
+				out = resp.getWriter();
+				out.print("<script>alert('탈퇴불가'); history.go(-1);</script>"); // alert출력
+				out.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("불가능");
+			
+		}
+		
+		
+		// 없다면 진행 
+		
+		
+		// 있다면 팝업
+		return null;
+		
+	
 
-		System.out.println(authInfo.getUser_id());
-		userService.deleteUserProcess(authInfo.getUser_id());
-		session.invalidate();
-		return "redirect:/";
-	}
+	      
+	      // userService.deleteUserProcess(userService.getKeynum(authInfo.getUser_id()));
+	     
+	   }
+
 
 }

@@ -53,6 +53,7 @@
 				/WEB-INF/spring/appServlet/bookrequest-context.xml
 				/WEB-INF/spring/appServlet/bookList-context.xml
 				/WEB-INF/spring/appServlet/userBookList-context.xml
+				/WEB-INF/spring/appServlet/userRequest-context.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

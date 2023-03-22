@@ -110,4 +110,9 @@ public class AdminServiceImp implements AdminService {
 		// TODO Auto-generated method stub
 		return adminDao.countUserAll();
 	}
+	@Override
+	public int checkstateService(String user_id) {
+		// TODO Auto-generated method stub
+		return adminDao.checkstate(user_id);
+	}
 }
