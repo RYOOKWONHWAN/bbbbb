@@ -20,8 +20,6 @@ public interface UserService {
 //	업데이트된 사용자 정보를 현재 세션에 적용
 	public AuthInfo updateUserProcess(UserDTO dto);
 
-
-
 	// 중복확인
 	public int idcheck(String user_id);
 
@@ -40,8 +38,13 @@ public interface UserService {
 
 	// 유저 삭제
 	public int checkBookProcess(String user_id);
-	
-	  public void deleteUserProcess(String user_keynum);
+
+	public void deleteUserProcess(String user_keynum);
+
 	public List<BookmanageDTO> pbookprintService();
+
 	public List<BookmanageDTO> nbookprintService();
+	// 도서마루 추천 api
+
+	public List<BookmanageDTO> marurecom(String paramAge, String gender);
 }

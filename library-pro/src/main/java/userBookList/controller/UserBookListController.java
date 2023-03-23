@@ -86,6 +86,7 @@ public class UserBookListController {
 			mdto.setTitle(userBookListService.BookDataProcess(PastBookList.get(i).getBook_keynum()).getTitle());
 			mdto.setBorrow_date(PastBookList.get(i).getBorrow_date());
 			mdto.setReturn_date(PastBookList.get(i).getReturn_date());
+			mdto.setBook_keynum(PastBookList.get(i).getBook_keynum());
 			pbdto.add(mdto);
 		}
 		mav.addObject("pbdto", pbdto);
@@ -96,7 +97,7 @@ public class UserBookListController {
 	// 대출 신청
 	@RequestMapping(value = "books/loan", method = RequestMethod.POST)
 	public ModelAndView Borrow(HttpSession session, BookListDTO bdto, ModelAndView mav,
-			@RequestParam("isbn") String isbn) {
+			@RequestParam("book_keynum") String isbn) {
 		if (session.getAttribute("authInfo") == null) {
 			mav.setViewName("redirect:/login");
 			return mav; // 관리자가 로그인이 되어있다면 회원가입 불가
@@ -187,9 +188,11 @@ public class UserBookListController {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		userBookListService.ExtendReturnProcess(borrow_keynum, book_keynum);
 		System.out.println("연장 완료");
-		List<UserBookListDTO> UserBookList = userBookListService.CurrBorrowListProcesss(authInfo.getUser_name());
+		String keynum=(String) session.getAttribute("keynum");
+		System.out.println(keynum);
+		List<UserBookListDTO> UserBookList = userBookListService.CurrBorrowListProcesss(keynum);
 		mav.addObject("UserBookList", UserBookList);
-		List<UserBookListDTO> PastBookList = userBookListService.PastBorrowListProcesss(authInfo.getUser_name());
+		List<UserBookListDTO> PastBookList = userBookListService.PastBorrowListProcesss(keynum);
 		mav.addObject("PastBookList", PastBookList);
 		mav.setViewName("my/record");
 		return "redirect:/my/record";
@@ -217,9 +220,9 @@ public class UserBookListController {
 		userBookListService.BorrowProcess(udto);
 		userBookListService.CancelReserveProcess(udto.getBorrow_keynum());
 
-		List<UserBookListDTO> UserBookList = userBookListService.CurrBorrowListProcesss(authInfo.getUser_name());
+		List<UserBookListDTO> UserBookList = userBookListService.CurrBorrowListProcesss(keynum);
 		mav.addObject("UserBookList", UserBookList);
-		List<UserBookListDTO> PastBookList = userBookListService.PastBorrowListProcesss(authInfo.getUser_name());
+		List<UserBookListDTO> PastBookList = userBookListService.PastBorrowListProcesss(keynum);
 		mav.addObject("PastBookList", PastBookList);
 		mav.setViewName("my/record");
 		return "redirect:/my/record";
@@ -229,7 +232,7 @@ public class UserBookListController {
 	// 예약 신청
 	@RequestMapping(value = "books/borrow", method = RequestMethod.POST)
 	public ModelAndView Reserve(ModelAndView mav, HttpSession session, BookListDTO bdto,
-			@RequestParam("isbn") String isbn) {
+			@RequestParam("book_keynum") String isbn) {
 		if (session.getAttribute("authInfo") == null) {
 			mav.setViewName("redirect:/login");
 			return mav; // 관리자가 로그인이 되어있다면 회원가입 불가

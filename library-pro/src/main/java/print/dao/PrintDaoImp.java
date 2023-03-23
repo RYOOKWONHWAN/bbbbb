@@ -35,6 +35,7 @@ public class PrintDaoImp implements PrintDAO {
 	public List<BookmanageDTO> search(PageDTO pv, String query, String option, String cate) {
 		// TODO Auto-generated method stub
 		Map<String, Object> paramMap = new HashMap<>();
+		
 		paramMap.put("page", pv);
 		if(query.equals("")) {
 			paramMap.put("query", null);
@@ -48,7 +49,7 @@ public class PrintDaoImp implements PrintDAO {
 		}else {
 			paramMap.put("cate", cate);
 		}
-		System.out.println(pv.getStartRow() +"_" +pv.getEndRow());
+
 		System.out.println(paramMap.get("option"));
 		System.out.println(paramMap.get("query"));
 		System.out.println(paramMap.get("cate"));
@@ -100,6 +101,10 @@ public class PrintDaoImp implements PrintDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("print.pBookCount");
 	}
-	
+	@Override
+	public String isbnToTitle(String isbn) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("print.searchByIsbn",isbn);
+	}
 	
 }

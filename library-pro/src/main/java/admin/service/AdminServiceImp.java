@@ -5,6 +5,7 @@ import java.util.List;
 import admin.dao.AdminDAO;
 import admin.dto.AdminDTO;
 import admin.dto.adminAuthInfo;
+import bookList.dto.BookReviewDTO;
 import print.dto.PageDTO;
 import user.dto.UserDTO;
 
@@ -114,5 +115,32 @@ public class AdminServiceImp implements AdminService {
 	public int checkstateService(String user_id) {
 		// TODO Auto-generated method stub
 		return adminDao.checkstate(user_id);
+	}
+	@Override
+	public int countrevServie() {
+		// TODO Auto-generated method stub
+		return adminDao.countrev();
+	}
+	@Override
+	public List<BookReviewDTO> printrevService(PageDTO pv) {
+		// TODO Auto-generated method stub
+		return adminDao.printrev(pv);
+	}
+	@Override
+	public void deleteadminreviewService(int review_keynum) {
+		// TODO Auto-generated method stub
+		adminDao.delete(review_keynum);
+	}
+	@Override
+	public int countrevsearchServie(String option,String query) {
+		// TODO Auto-generated method stub
+		return adminDao.countsearchrev(option,query);
+	}
+	
+	
+	@Override
+	public List<BookReviewDTO> printrevsearchService(PageDTO pv,String option,String query) {
+		// TODO Auto-generated method stub
+		return adminDao.printsearchrev(pv, option, query);
 	}
 }

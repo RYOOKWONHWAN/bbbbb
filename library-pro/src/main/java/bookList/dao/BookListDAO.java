@@ -32,4 +32,6 @@ public interface BookListDAO {
 	
 	// 유저 아이디
 	public String getId(String keynum);
+	public int count();
+
 }

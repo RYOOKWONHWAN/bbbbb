@@ -25,5 +25,6 @@
 <bean class="admin.controller.AdminController" >
 	<property name="adminService" ref="adminService" />
 	<property name="borrowService" ref="borrowService" />
+
 </bean>
 </beans>

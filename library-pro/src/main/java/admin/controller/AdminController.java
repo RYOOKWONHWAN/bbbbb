@@ -25,6 +25,8 @@ import admin.borrow.service.BorrowService;
 import admin.dto.AdminDTO;
 import admin.dto.adminAuthInfo;
 import admin.service.AdminService;
+import bookList.dto.BookReviewDTO;
+import bookList.service.BookListService;
 import print.dto.PageDTO;
 import user.dto.UserDTO;
 
@@ -56,6 +58,10 @@ public class AdminController {
 			System.out.println("authInfo존재"); // 있다면 홈으로 리다이렉트
 			return "redirect:/";
 		}
+		if (session.getAttribute("adminauthInfo") != null) { // 사용자 페이지에서 로그인하거나 회원가입시 생기는 authinfo 가 있을시
+			System.out.println("authInfo존재"); // 있다면 홈으로 리다이렉트
+			return "redirect:/admin/user";
+		}
 		return "admin";
 	}
 
@@ -65,6 +71,10 @@ public class AdminController {
 			System.out.println("authInfo존재"); // 홈으로 리다이렉트
 			return "redirect:/";
 		}
+		if (session.getAttribute("adminauthInfo") != null) { // 사용자 페이지에서 로그인하거나 회원가입시 생기는 authinfo 가 있을시
+			System.out.println("authInfo존재"); // 있다면 홈으로 리다이렉트
+			return "redirect:/admin/user";
+		}
 		return "redirect:/";
 	}
 
@@ -73,6 +83,10 @@ public class AdminController {
 		if (session.getAttribute("authInfo") != null) { // 사용자 페이지에서 로그인하거나 회원가입시 생기는 authinfo 가 있을시
 			System.out.println("authInfo존재"); // 홈으로
 			return "redirect:/";
+		}
+		if (session.getAttribute("adminauthInfo") != null) { // 사용자 페이지에서 로그인하거나 회원가입시 생기는 authinfo 가 있을시
+			System.out.println("authInfo존재"); // 있다면 홈으로 리다이렉트
+			return "redirect:/admin/user";
 		}
 		return "redirect:/";
 	}
@@ -180,20 +194,15 @@ public class AdminController {
 		return "admin/admin";
 	}
 
-	@RequestMapping(value = "/admin/review")
-	public String review() {
-		return "admin/review";
-	}
-
 	@RequestMapping(value = "/admin/deleteUser")
 	public String deleteUser(@RequestParam("user_id") String user_id, HttpServletResponse resp) {
-		// 유저 북리스트에서 카운트 해서 먼저 확인 
-		int checkstate=adminService.checkstateService(user_id);
-		if(checkstate==0) {
+		// 유저 북리스트에서 카운트 해서 먼저 확인
+		int checkstate = adminService.checkstateService(user_id);
+		if (checkstate == 0) {
 			System.out.println("가능");
 			adminService.deleteUserService(user_id);
 			return "redirect:/admin/user";
-		}else {
+		} else {
 			resp.setContentType("text/html;charset=UTF-8");
 			PrintWriter out;
 			try {
@@ -205,21 +214,15 @@ public class AdminController {
 				e.printStackTrace();
 			}
 			System.out.println("불가능");
-			
-		}
-		
-		
-		// 없다면 진행 
-		
-		
-		// 있다면 팝업
-		
-		return null;
-		
-	
 
-		
-	
+		}
+
+		// 없다면 진행
+
+		// 있다면 팝업
+
+		return null;
+
 	}
 
 	@RequestMapping(value = "/admin/deleteAdmin")
@@ -309,17 +312,18 @@ public class AdminController {
 			model.addAttribute("number", pdto.getNumber());
 
 		}
-		
+
 		List<BorrowDTO> borrowdtos = borrowService.printBorrowService(this.pdto);
 		System.out.println(borrowdtos.size());
-		model.addAttribute("borrowdtos",borrowdtos);
+		model.addAttribute("borrowdtos", borrowdtos);
 
 		return "admin/borrow";
 	}
-	
-	@RequestMapping(value = "/admin/searchborrow",  method=RequestMethod.GET)
-	public String searchborrow(Model model, PageDTO pv,@RequestParam("option") String option, @RequestParam("search")String query) {
-		int totalCount = borrowService.countSearchBorrowService(option,query);
+
+	@RequestMapping(value = "/admin/searchborrow", method = RequestMethod.GET)
+	public String searchborrow(Model model, PageDTO pv, @RequestParam("option") String option,
+			@RequestParam("search") String query) {
+		int totalCount = borrowService.countSearchBorrowService(option, query);
 		// 페이지네이션을 위한 결과 개수 가져오기
 		System.out.println(totalCount);
 		if (totalCount >= 1) {
@@ -330,16 +334,69 @@ public class AdminController {
 			model.addAttribute("number", pdto.getNumber());
 
 		}
-		
-		System.out.println(option+"_"+query);
-		
-		List<BorrowDTO> borrowdtos = borrowService.printSearchBorrowService(this.pdto,option,query);
+
+		System.out.println(option + "_" + query);
+
+		List<BorrowDTO> borrowdtos = borrowService.printSearchBorrowService(this.pdto, option, query);
 		System.out.println(borrowdtos.size());
-		model.addAttribute("searchBorrowdtos",borrowdtos);
-		model.addAttribute("count",totalCount);
-		model.addAttribute("option",option);
-		model.addAttribute("query",query);
+		model.addAttribute("searchBorrowdtos", borrowdtos);
+		model.addAttribute("count", totalCount);
+		model.addAttribute("option", option);
+		model.addAttribute("query", query);
 		return "admin/borrow";
 	}
+
+	@RequestMapping(value = "/admin/review")
+	public String review(PageDTO pv, Model model) {
+		int totalCount = adminService.countrevServie();
+		// 페이지네이션을 위한 결과 개수 가져오기
+		System.out.println(totalCount);
+		if (totalCount >= 1) {
+			if (pv.getCurrentPage() == 0)
+				pv.setCurrentPage(1);
+			this.pdto = new PageDTO(pv.getCurrentPage(), totalCount);
+			model.addAttribute("pv", this.pdto); // 전체수에 맞춘 pv 추가
+			model.addAttribute("number", pdto.getNumber());
+
+		}
+		List<BookReviewDTO> revdtos = adminService.printrevService(this.pdto);
+		model.addAttribute("revdtos", revdtos);
+
+		return "admin/review";
+	}
+
+	@RequestMapping(value = "admin/delete", method = RequestMethod.GET)
+	public String deleteRev(@RequestParam("review_keynum") int review_keynum, HttpSession session) {
+		System.out.println("rk"+review_keynum);
+		
+		adminService.deleteadminreviewService(review_keynum);
+		return "redirect:/admin/review";
+	}
+	
+	@RequestMapping(value = "/admin/searchreview" , method=RequestMethod.GET)
+	public String searchreview(PageDTO pv, Model model,@RequestParam("option")String option, @RequestParam("search")String query) {
+		int totalCount = adminService.countrevsearchServie(option,query);
+		// 페이지네이션을 위한 결과 개수 가져오기
+		System.out.println("검색결과"+totalCount);
+		
+		System.out.println(option +" + " +query);
+		if (totalCount >= 1) {
+			if (pv.getCurrentPage() == 0)
+				pv.setCurrentPage(1);
+			this.pdto = new PageDTO(pv.getCurrentPage(), totalCount);
+			model.addAttribute("searchResultPv", this.pdto); // 전체수에 맞춘 pv 추가
+			model.addAttribute("number", pdto.getNumber());
+
+		}
+		List<BookReviewDTO> revdtos = adminService.printrevsearchService(this.pdto,option,query);
+		model.addAttribute("searchrevdtos", revdtos);
+		model.addAttribute("query",query);
+		model.addAttribute("option",option);
+		model.addAttribute("totalcount",totalCount);
+	
+
+		return "admin/review";
+	}
+
 
 }

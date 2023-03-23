@@ -36,7 +36,13 @@ public class BookmanageDTO {
 		this.thumbnail = thumbnail;
 		this.category_s = category_s;
 	}
-
+	public BookmanageDTO(String isbn, String title, String author, String pub_date) {
+		super();
+		this.isbn=isbn;
+		this.title=title;
+		this.author=author;
+		this.pub_date=pub_date;
+	}
 
 	public int getBook_keynum() {
 		return book_keynum;

@@ -26,6 +26,8 @@
         <link rel="stylesheet" href="/myapp/resources/css/books.css" />
         <link rel="stylesheet" href="/myapp/resources/css/request.css" />
         <link rel="stylesheet" href="/myapp/resources/css/my.css" />
+        <link rel="stylesheet" href="/myapp/resources/css/recommend.css" />
+        <link rel="stylesheet" href="/myapp/resources/css/mymy.css" />
 
         <!-- script -->
         <script type="text/javascript" src="/myapp/resources/js/jquery-3.6.3.js"></script>

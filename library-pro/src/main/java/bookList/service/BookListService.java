@@ -32,4 +32,8 @@ public interface BookListService {
 	public String getKeynumProcess(String id);
 	
 	public String getIdProcess(String keynum);
+	
+	public int countService();
+	
+
 }

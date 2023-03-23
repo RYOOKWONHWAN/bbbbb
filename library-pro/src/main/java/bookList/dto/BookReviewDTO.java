@@ -5,7 +5,7 @@ import java.util.Date;
 public class BookReviewDTO {
 	private int review_keynum;
 	private String isbn;
-	
+	private String title;
 	private int star_num;
 	private String review_contents;
 	private Date review_date;
@@ -78,6 +78,15 @@ public class BookReviewDTO {
 	public void setUser_keynum(String user_keynum) {
 		this.user_keynum = user_keynum;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	
 	
 	

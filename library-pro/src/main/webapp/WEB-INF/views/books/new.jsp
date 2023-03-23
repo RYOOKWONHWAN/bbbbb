@@ -24,7 +24,7 @@
 					<c:forEach var="dto" items="${nbooklist }">
 						<div class="list">
 							<a
-								href="${pageContext.request.contextPath}/books/view?page=${dto.isbn}">
+								href="${pageContext.request.contextPath}/books/view?page=${dto.book_keynum}">
 								<img src="${dto.thumbnail }" alt="책 표지" />
 							</a>
 							<div class="list_text">

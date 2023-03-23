@@ -197,7 +197,7 @@
   width: calc(50% - 5px);
 }
 
-.ing_record > .record > .record_btn .record_btn_2:first-of-type {
+.ing_record > .record > .record_btn form:first-of-type .record_btn_2 {
   margin-right: 10px;
 }
 

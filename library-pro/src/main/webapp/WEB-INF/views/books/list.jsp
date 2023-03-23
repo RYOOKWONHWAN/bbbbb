@@ -28,29 +28,43 @@
 									<option value="search_title" selected="selected">도서명</option>
 									<option value="search_author">저자명</option>
 									<option value="search_publisher">발행처</option>
+									<option value="search_isbn">ISBN</option>
 								</c:when>
 								<c:when test="${option eq 'search_author'}">
 									<option value="search_title">도서명</option>
 									<option value="search_author" selected="selected">저자명</option>
 									<option value="search_publisher">발행처</option>
+									<option value="search_isbn">ISBN</option>
+
 								</c:when>
 								<c:when test="${option eq 'search_publisher' }">
 									<option value="search_title">도서명</option>
 									<option value="search_author">저자명</option>
 									<option value="search_publisher" selected="selected">발행처</option>
+									<option value="search_isbn">ISBN</option>
 								</c:when>
+								<c:when test="${option eq 'search_isbn' }">
+									<option value="search_title">도서명</option>
+									<option value="search_author">저자명</option>
+									<option value="search_publisher" >발행처</option>
+									<option value="search_isbn" selected="selected">ISBN</option>
+								</c:when>
+
 								<c:otherwise>
 									<option value="search_title" selected="selected">도서명</option>
 									<option value="search_author">저자명</option>
 									<option value="search_publisher">발행처</option>
+									<option value="search_isbn">ISBN</option>
 								</c:otherwise>
 							</c:choose>
 
 						</select>
 						<c:choose>
+
 							<c:when test="${not empty query }">
 								<input type="text" name="query" value="${query }" />
 							</c:when>
+
 							<c:otherwise>
 								<input type="text" name="query" placeholder="검색어를 입력하세요." />
 							</c:otherwise>
@@ -104,7 +118,7 @@
 							<c:forEach var="dto" items="${printdtos }">
 								<div class="list">
 									<a
-										href="${pageContext.request.contextPath}/books/view?page=${dto.isbn}">
+										href="${pageContext.request.contextPath}/books/view?page=${dto.book_keynum}">
 										<img src="${dto.thumbnail }" alt="책 표지" />
 									</a>
 									<div class="list_text">
@@ -174,12 +188,15 @@
 								</div>
 							</c:forEach>
 						</c:when>
+
+
 					</c:choose>
 
 					<div class="pagination_area">
 						<ul class="pagination">
 							<!-- 처음 출력 시작 -->
 							<c:choose>
+
 								<c:when test="${not empty searchResultPv }">
 									<c:choose>
 										<c:when test="${searchResultPv.startPage >1}">
@@ -367,6 +384,7 @@
 										</c:otherwise>
 									</c:choose>
 								</c:when>
+
 							</c:choose>
 
 							<!-- 마지막 출력 끝 -->
@@ -376,11 +394,9 @@
 				</div>
 
 
-				<div class="books_tab_cont_2">
-				</div>
+				<div class="books_tab_cont_2"></div>
 
-				<div class="books_tab_cont_3">
-				</div>
+				<div class="books_tab_cont_3"></div>
 			</div>
 		</div>
 </section>

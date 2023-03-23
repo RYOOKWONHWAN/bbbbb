@@ -3,6 +3,9 @@ package user.dao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import admin.bookmanage.dto.BookmanageDTO;
 import user.dto.AuthInfo;
@@ -82,5 +85,15 @@ public class UserDaoImp implements UserDAO {
     	return sqlSession.selectList("user.pbookprint");
     }
     
+	@Override
+	public String getTagValue(String tag, Element eElement) {
+		// TODO Auto-generated method stub
+		NodeList nList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
+		Node nValue = (Node) nList.item(0);
+		if (nValue == null)
+			return null;
+
+		return nValue.getNodeValue();
+	}
 
 }

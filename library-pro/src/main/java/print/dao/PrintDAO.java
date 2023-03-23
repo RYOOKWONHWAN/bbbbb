@@ -24,4 +24,5 @@ public interface PrintDAO {
 	
 	public List<BookmanageDTO> pBook();
 	public int pBookCount();
+	public String isbnToTitle(String isbn);
 }

@@ -24,7 +24,7 @@
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/mylibrary" />
-			<mvc:mapping path="/request" />
+			<mvc:mapping path="/request/*" />
 			<mvc:mapping path="/my" />
 			<mvc:mapping path="/my/*" />
 			<mvc:mapping path="/books/writeRev" />
@@ -66,6 +66,7 @@
 				<value>classpath:mapper/bookListMapper.xml</value>
 				<value>classpath:mapper/userBookListMapper.xml</value>
 				<value>classpath:mapper/userRequestMapper.xml</value>
+				<value>classpath:mapper/userRecommendMapper.xml</value>
 			</list>
 		</property>
 	</bean>

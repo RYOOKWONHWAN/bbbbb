@@ -58,4 +58,9 @@ public class PrintServiceImp implements PrintService{
 		// TODO Auto-generated method stub
 		return printDao.pBook();
 	}
+	@Override
+	public String isbnTotitleService(String isbn) {
+		// TODO Auto-generated method stub
+		return printDao.isbnToTitle(isbn);
+	}
 }

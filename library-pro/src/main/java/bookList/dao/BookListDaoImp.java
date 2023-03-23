@@ -76,5 +76,13 @@ public class BookListDaoImp implements BookListDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("bookList.getId",keynum);
 	}
+	
+	@Override
+	public int count() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("bookList.count");
+	}
+	
+
 
 }

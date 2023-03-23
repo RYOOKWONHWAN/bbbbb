@@ -117,7 +117,7 @@
 									</c:if>
 								</tr>
 								<tr>
-									<td><a href="">${pbdto.title }</a></td>
+									<td><a href="${pageContext.request.contextPath}/books/view?page=${pbdto.book_keynum}">${pbdto.title }</a></td>
 									<td>${pbdto.author}</td>
 									<c:set var="borrowDate">
 										<fmt:formatDate value="${pbdto.borrow_date }"

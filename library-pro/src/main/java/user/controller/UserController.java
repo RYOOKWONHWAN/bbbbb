@@ -48,7 +48,7 @@ public class UserController {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	public void setUserBookListService(UserBookListService userBookListService) {
 		this.userBookListService = userBookListService;
 	}
@@ -59,13 +59,13 @@ public class UserController {
 		List<NoticeDTO> mainFiveDTO = userNoticeService.latestFiveProcess(); // 공지사항 5개 출력
 		// System.out.println(mainDTO.getNum());
 		// System.out.println(mainDTO.getTitle());
-		List<BookmanageDTO> plist= userService.pbookprintService();
-		List<BookmanageDTO> nlist= userService.nbookprintService();
-		
-		System.out.println(plist.size() +"_" + nlist.size());
-		
-		mav.addObject("nlist",nlist);
-		mav.addObject("plist",plist);
+		List<BookmanageDTO> plist = userService.pbookprintService();
+		List<BookmanageDTO> nlist = userService.nbookprintService();
+
+		System.out.println(plist.size() + "_" + nlist.size());
+
+		mav.addObject("nlist", nlist);
+		mav.addObject("plist", plist);
 		// mav.addObject("currentPage", 1);
 		mav.addObject("latestOne", mainOneDTO); // 추가
 		mav.addObject("latestFive", mainFiveDTO); // 추가
@@ -184,41 +184,36 @@ public class UserController {
 		}
 		return "request";
 	}
+
 	@RequestMapping(value = "/my")
 	public String my(HttpSession session, Model model) {
-		AuthInfo ai= (AuthInfo) session.getAttribute("authInfo");
+		AuthInfo ai = (AuthInfo) session.getAttribute("authInfo");
 		UserDTO userDTO = userService.selectUserProcess(ai.getUser_id());
-		
-		model.addAttribute("userDTO",userDTO);
-		String addr= userDTO.getUser_address();
-		String post=addr.split(" ")[0];
-		String address=addr.substring(6);
-		
-		String adx=address.split("/")[0];
-		String extra=address.split("/")[1];
+
+		model.addAttribute("userDTO", userDTO);
+		String addr = userDTO.getUser_address();
+		String post = addr.split(" ")[0];
+		String address = addr.substring(6);
+
+		String adx = address.split("/")[0];
+		String extra = address.split("/")[1];
 		System.out.println(addr);
 		System.out.println(address);
 		System.out.println(post);
 
-		model.addAttribute("post",post);
-		model.addAttribute("address",adx);
-		model.addAttribute("extra",extra);
-		
+		model.addAttribute("post", post);
+		model.addAttribute("address", adx);
+		model.addAttribute("extra", extra);
+
 		return "my";
-	}
-
-
-	@RequestMapping(value = "/my/recommend")
-	public String recommend() {
-		return "my/recommend";
 	}
 
 	// 주소 변경 처리
 	@RequestMapping(value = "/my/changeAdd", method = RequestMethod.POST)
 	public String updateAddress(UserDTO dto, HttpSession session) {
 		AuthInfo authInfo = userService.updateAddressProcess(dto);
-		
-		AuthInfo avsca= (AuthInfo) session.getAttribute("authInfo");
+
+		AuthInfo avsca = (AuthInfo) session.getAttribute("authInfo");
 		System.out.println(avsca.getUser_password());
 		System.out.println(dto.getUser_password());
 		session.setAttribute("authInfo", authInfo);
@@ -245,17 +240,17 @@ public class UserController {
 //	}
 
 	// 회원 탈퇴 요청
-	   @RequestMapping(value = "/my/delete", method = RequestMethod.POST)
-	   public String deleteUser(HttpSession session, Model mod, HttpServletResponse resp) {
-	      AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-	      int chk=userService.checkBookProcess(authInfo.getUser_id());
-	      String user_keynum=(String)session.getAttribute("keynum");
-	  	if(chk == 0) {
+	@RequestMapping(value = "/my/delete", method = RequestMethod.POST)
+	public String deleteUser(HttpSession session, Model mod, HttpServletResponse resp) {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		int chk = userService.checkBookProcess(authInfo.getUser_id());
+		String user_keynum = (String) session.getAttribute("keynum");
+		if (chk == 0) {
 			System.out.println("가능");
 			userService.deleteUserProcess(user_keynum);
 			session.invalidate();
 			return "redirect:/";
-		}else {
+		} else {
 			resp.setContentType("text/html;charset=UTF-8");
 			PrintWriter out;
 			try {
@@ -267,22 +262,16 @@ public class UserController {
 				e.printStackTrace();
 			}
 			System.out.println("불가능");
-			
+
 		}
-		
-		
-		// 없다면 진행 
-		
-		
+
+		// 없다면 진행
+
 		// 있다면 팝업
 		return null;
-		
-	
 
-	      
-	      // userService.deleteUserProcess(userService.getKeynum(authInfo.getUser_id()));
-	     
-	   }
+		// userService.deleteUserProcess(userService.getKeynum(authInfo.getUser_id()));
 
+	}
 
 }

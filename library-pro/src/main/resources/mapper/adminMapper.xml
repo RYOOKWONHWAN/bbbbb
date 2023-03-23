@@ -78,7 +78,7 @@
 		update admin_data set
 		bigo2='1' where admin_id=#{admin_id}
 	</update>
-	
+
 	<select id="searchuser" parameterType="java.util.Map"
 		resultType="user.dto.UserDTO">
 		SELECT y.* FROM(
@@ -161,11 +161,12 @@
 		z.title
 		from user_booklist x, user_data y, booklist z
 		where
-		x.user_keynum=y.user_keynum and x.book_keynum=z.book_keynum 
+		x.user_keynum=y.user_keynum and x.book_keynum=z.book_keynum
 		ORDER BY
 		x.borrow_keynum desc
 		)b)a
-		WHERE a.rm BETWEEN #{startRow} AND #{endRow}
+		WHERE a.rm BETWEEN #{startRow} AND
+		#{endRow}
 	</select>
 
 	<select id="countBorrow" resultType="int">
@@ -228,11 +229,86 @@
 	<select id="checkstate" parameterType="string" resultType="int">
 		select count(*)
 		from user_booklist x , user_data y
-		where x.user_keynum = y.user_keynum and y.user_id=#{user_id}
+		where x.user_keynum =
+		y.user_keynum and y.user_id=#{user_id}
 		and borrow_state !='반납'
 	</select>
+	<select id="countrev" resultType="int">
+		select count(*)
+		from book_review
+	</select>
+	<select id="printRev" parameterType="print.dto.PageDTO"
+		resultType="bookList.dto.BookReviewDTO">
+			<![CDATA[
+		SELECT y.*
+		FROM(SELECT rownum as rm, x.*
+			FROM(SELECT a.*, b.title, c.user_id
+				FROM book_review a, booklist b , user_data c
+				WHERE a.book_keynum = b.book_keynum
+                and c.user_keynum=a.user_keynum
+				)x
+			)y
+		WHERE y.rm BETWEEN #{startRow} AND #{endRow} 
+
+		]]>
+	</select>
+
+	<!-- 후기 삭제 -->
+	<delete id="deleteadminReview" parameterType="int">
+		DELETE FROM
+		BOOK_REVIEW
+		WHERE review_keynum = #{review_keynum}
+	</delete>
 
 
+
+	<select id="SearchReview" parameterType="java.util.Map"
+		resultType="bookList.dto.BookReviewDTO">
+
+		SELECT a.* FROM(
+		SELECT rownum as rm, b.*FROM(
+		select x.* ,
+		y.user_id,
+		z.title
+		from book_review x, user_data y, booklist z
+		where
+		x.user_keynum=y.user_keynum and
+		x.book_keynum=z.book_keynum
+		<if test="query != null">
+			<if test="option eq 'title'">
+				and z.title like '%'||#{query}||'%'
+			</if>
+			<if test="option eq 'id'">
+				and y.user_id LIKE '%'||#{query}||'%'
+			</if>
+			<if test="option eq 'name'">
+				and y.user_name LIKE '%'||#{query}||'%'
+			</if>
+		</if>
+		)b)a
+		WHERE a.rm BETWEEN #{pv.startRow} AND #{pv.endRow}
+	</select>
+
+	<select id="SearchReviewCount" parameterType="java.util.Map"
+		resultType="int">
+		select count(*)
+		from book_review x, user_data y, booklist z
+		where
+		x.user_keynum=y.user_keynum and
+		x.book_keynum=z.book_keynum
+
+		<if test="option eq 'title'">
+			and z.title like '%'||#{query}||'%'
+		</if>
+		<if test="option eq 'id'">
+			and y.user_id LIKE '%'||#{query}||'%'
+		</if>
+		<if test="option eq 'name'">
+			and y.user_name LIKE '%'||#{query}||'%'
+		</if>
+
+
+	</select>
 
 
 

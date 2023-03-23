@@ -24,4 +24,5 @@ public interface PrintService {
 	
 	public List<BookmanageDTO> pBookService();
 	public int pBookCountService();
+	public String isbnTotitleService(String isbn);
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import admin.dto.AdminDTO;
 import admin.dto.adminAuthInfo;
+import bookList.dto.BookReviewDTO;
 import print.dto.PageDTO;
 import user.dto.UserDTO;
 
@@ -71,6 +72,9 @@ public class AdminDaoImp implements AdminDAO {
 		sqlSession.delete("admin.deleteAdmin", admin_id);
 
 	}
+	
+	
+	
 	
 	@Override
 	public int countAdmin(String query, String option) {
@@ -147,5 +151,58 @@ public class AdminDaoImp implements AdminDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("checkstate",user_id);
 	}
+	@Override
+	public int countrev() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("admin.countrev");
+	}
+	
+	@Override
+	public List<BookReviewDTO> printrev(PageDTO pv) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("admin.printRev",pv);
+	}
+	
+	@Override
+	public void delete(int review_keynum) {
+		// TODO Auto-generated method stub
+		sqlSession.selectOne("admin.deleteadminReview",review_keynum);
+	}
+	
+	@Override
+	public int countsearchrev(String option,String query) {
+		// TODO Auto-generated method stub
+		Map<String, String> mapa=new HashMap<String, String>();
+		mapa.put("option", option);
+		
+		if(query.equals(""))
+		{
+			mapa.put("query","");
+		}else{
+			mapa.put("query", query);
+		}
+		
+		return sqlSession.selectOne("admin.SearchReviewCount",mapa);
+	}
+	
+	@Override
+	public List<BookReviewDTO> printsearchrev(PageDTO pv,String option,String query) {
+		// TODO Auto-generated method stub
+		
+		Map<String, Object> mapa=new HashMap<String, Object>();
+		mapa.put("pv",pv);
+		mapa.put("option", option);
+		
+		if(query.equals(""))
+		{
+		mapa.put("query","");
+		}else{
+			mapa.put("query", query);
+		}
+		
+		return sqlSession.selectList("admin.SearchReview",mapa);
+
+	}
+	
 
 }

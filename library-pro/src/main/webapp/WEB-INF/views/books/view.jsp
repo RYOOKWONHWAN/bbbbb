@@ -34,7 +34,7 @@ const popupShownKey = "popupShown";
 	  $(document).ready(function() {
 		console.log("로딩 완료.");
 		  const shouldShowPopup = sessionStorage.getItem(popupShownKey) === "true";
-		  if (shouldShowPopup && "<%=popupMessage%>"!=="null") {
+		  if (shouldShowPopup && "<%=popupMessage%>" !== "null") {
 		    $(".popup>p").text("<%=popupMessage%>");
 							$(".popup_back").addClass("on");
 							popupShown = true;
@@ -43,7 +43,9 @@ const popupShownKey = "popupShown";
 
 						// 수정 클릭 시 수정창 나타남
 						$('[id^="editReview_"]').click(
+
 								function(event) {
+									console.log("clicked");
 									event.preventDefault();
 									let revNum = this.id.split("_").pop();
 									$(this).closest('.review_box').addClass(
@@ -111,7 +113,7 @@ const popupShownKey = "popupShown";
 									let url = form.attr('action'); // form태그의 'action'값을 url에 담는다.
 
 									$.ajax({
-										type : 'POST',
+										type : 'GET',
 										url : url,
 										data : formData,
 										success : function(response) {
@@ -212,13 +214,11 @@ const popupShownKey = "popupShown";
 					</p>
 					<c:choose>
 						<c:when test="${bldto.loan_state == 'Y' }">
-							<form id="loan" name="loan" action="loan" method="post">
+							<form id="loan" name="loan" action="loan" method="get">
 								<input type="hidden" name="book_keynum"
 									value="${bldto.book_keynum }" /> <input type="hidden"
-									name="category_s" value="${bldto.category_s }" /> 
-									<input type="hidden"
-									name="isbn" value="${bldto.isbn }" />
-									<input
+									name="category_s" value="${bldto.category_s }" /> <input
+									type="hidden" name="isbn" value="${bldto.isbn }" /> <input
 									type="hidden" name="loan_state" value="${bldto.loan_state }" />
 								<input type="hidden" name="borrow_state"
 									value="${bldto.borrow_state }" />
@@ -226,14 +226,13 @@ const popupShownKey = "popupShown";
 							</form>
 						</c:when>
 						<c:when test="${bldto.borrow_state == 'Y' }">
-							<form id="reserve" name="reserve" action="borrow" method="post">
-							<input type="hidden"
-									name="isbn" value="${bldto.isbn }" />
-								<input type="hidden" name="book_keynum"
-									value="${bldto.book_keynum }" /> <input type="hidden"
-									name="category_s" value="${bldto.category_s }" /> <input
-									type="hidden" name="loan_state" value="${bldto.loan_state }" />
-								<input type="hidden" name="borrow_state"
+							<form id="reserve" name="reserve" action="borrow" method="get">
+								<input type="hidden" name="isbn" value="${bldto.isbn }" /> <input
+									type="hidden" name="book_keynum" value="${bldto.book_keynum }" />
+								<input type="hidden" name="category_s"
+									value="${bldto.category_s }" /> <input type="hidden"
+									name="loan_state" value="${bldto.loan_state }" /> <input
+									type="hidden" name="borrow_state"
 									value="${bldto.borrow_state }" />
 								<button type="submit">예약하기</button>
 							</form>
@@ -258,9 +257,10 @@ const popupShownKey = "popupShown";
 						<li>
 							<h4>리뷰 작성</h4> <input type="hidden" name="user_id"
 							value="${sessionScope.authInfo.user_id}" /> <!-- book_keynum -->
-							<input type="hidden" name="book_keynum"
-							value="${bldto.book_keynum }" /> <!-- ISBN값 --> <input
-							type="hidden" name="isbn" value="${bldto.isbn }" />
+							<!-- ISBN값 --> <input type="hidden" name="book_keynum"
+							value="${bldto.book_keynum }" /> <input type="hidden"
+							name="isbn" value="${bldto.isbn }" />
+
 						</li>
 						<li><select name="star_num">
 								<option value="5">⭐⭐⭐⭐⭐</option>
@@ -316,13 +316,15 @@ const popupShownKey = "popupShown";
 								${dto.user_id}&nbsp;&nbsp;·&nbsp;&nbsp;${dto.review_date }</span>
 							<c:if
 								test="${sessionScope.authInfo != null && sessionScope.authInfo.user_id == dto.user_id }">
-								<form id="EditDeleteFrm_${dto.review_keynum }" method="POST"
+								<form id="EditDeleteFrm_${dto.review_keynum }" method="get"
 									action="/bookList/delete">
 									<span>&nbsp;&nbsp;·&nbsp;&nbsp;<a href=""
 										id="editReview_${dto.review_keynum }">수정</a></span> <input
 										type="hidden" name="review_keynum"
 										value="${dto.review_keynum }" /> <span>&nbsp;&nbsp;·&nbsp;&nbsp;<a
 										href="" id="deleteReview_${dto.review_keynum }">삭제</a></span>
+										
+										<input type="hidden" name="page" value="${dto.book_keynum }">
 									<!-- <button type="submit">삭제</button> -->
 								</form>
 							</c:if>
@@ -334,7 +336,7 @@ const popupShownKey = "popupShown";
 						test="${sessionScope.authInfo != null && sessionScope.authInfo.user_id == dto.user_id }">
 						<div class="review_box hide">
 							<form id="review_${dto.review_keynum}" class="updateReview"
-								method="POST" action="update">
+								method="get" action="update">
 								<ul>
 									<li>
 										<h4>
@@ -352,6 +354,8 @@ const popupShownKey = "popupShown";
 											placeholder="리뷰를 작성해주세요." name="review_contents">${dto.review_contents}</textarea>
 										<input type="hidden" name="review_keynum"
 										value=${dto.review_keynum } />
+										<input type="hidden" name="page"
+										value=${dto.book_keynum } />
 										<button type="submit">수정</button></li>
 								</ul>
 							</form>

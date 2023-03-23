@@ -4,6 +4,8 @@ import java.util.List;
 
 import admin.dto.AdminDTO;
 import admin.dto.adminAuthInfo;
+import bookList.dto.BookListDTO;
+import bookList.dto.BookReviewDTO;
 import print.dto.PageDTO;
 import user.dto.UserDTO;
 
@@ -56,4 +58,15 @@ public interface AdminDAO {
 	
 	public int checkstate(String user_id);
 	
+	
+	public int countrev();
+	public List<BookReviewDTO> printrev(PageDTO pv);
+	public void delete(int review_keynum);
+	
+	
+	
+	
+	
+	public int countsearchrev(String option,String query);
+	public List<BookReviewDTO> printsearchrev(PageDTO pv,String option,String query);
 }

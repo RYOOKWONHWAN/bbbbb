@@ -20,83 +20,78 @@
 
 			<!-- 내 정보 관리 -->
 			<div class="my_tab_cont_1 active">
-				<p>- 회원정보 수정</p>
-				<div>
+				<div class="mymy_area">
+
+					<h2>${userDTO.user_name }(${userDTO.user_id }) ${userDTO.user_age }세 ${userDTO.user_sex == 'M' ? '남성' : '여성' }</h2>
+
+					<h4 class="user_mod">회원정보 수정</h4>
+
 					<form class="address_form" id="changeAdd" method="post"
 						action="my/changeAdd">
-						<h4>주소 변경</h4>
-						<c:choose>
-							<c:when test="${not empty userDTO }">
-								<input id="member_post" type="text" placeholder="${post}"
-									readonly>
-								<button class="addr_btn" type="button">주소찾기</button>
-								<input id="member_addr" type="text" placeholder="${address}"
-									readonly>
-								<br>
-								<input type="text" id="extra" placeholder="${extra }">
-								<input type="hidden" name=user_address id="user_address">
+
+						<ul>
+							<li>
+								<h4>주소</h4>
+							</li>
+							<li><input id="member_post" type="text" placeholder="우편번호"
+								value="${post}" style="width: 50%; margin-right: 20px;" readonly>
+								<button class="addr_btn" type="button"
+									style="width: calc(50% - 20px);">주소찾기</button></li>
+							<li><input id="member_addr" type="text" placeholder="주소"
+								value="${address}" readonly></li>
+							<li><input type="text" id="extra" placeholder="상세주소"
+								value="${extra }"> <input type="hidden"
+								name=user_address id="user_address"></li>
+							<li>
 								<h4>비밀번호 확인</h4>
-								<input type="password" placeholder="패스워드를 입력하세요."
-									id="user_password" name="user_password" />
-								<input type="text" hidden="hidden" name="user_id"
-									value="${sessionScope.authInfo.user_id }">
-
-							</c:when>
-							<c:otherwise>
-								<input id="member_post" type="text" placeholder="우편번호" readonly>
-								<button class="addr_btn" type="button">주소찾기</button>
-								<input id="member_addr" type="text" placeholder="주소" readonly>
-								<br>
-								<input type="text" id="extra" placeholder="상세 주소를 입력하세요.">
-								<input type="hidden" name=user_address id="user_address">
-								<h4>비밀번호 확인</h4>
-								<input type="password" placeholder="패스워드를 입력하세요."
-									id="user_password" name="user_password" />
-								<input type="text" hidden="hidden" name="user_id"
-									value="${sessionScope.authInfo.user_id }">
-							</c:otherwise>
-
-						</c:choose>
-
+							</li>
+							<li><input type="password" placeholder="패스워드를 입력하세요."
+								id="user_password" name="user_password" /> <input type="text"
+								hidden="hidden" name="user_id"
+								value="${sessionScope.authInfo.user_id }"></li>
+						</ul>
 
 						<button type="submit">수정하기</button>
 					</form>
-					<input type="text" name="user_name" value="${userDTO.user_name }">
-					<input type="text" name="user_sex" value="${userDTO.user_sex}">
-					<input type="text" name="user_age" value="${userDTO.user_age}">
-				</div>
 
-				<p>- 비밀번호 변경</p>
-				<div>
+					<h4 class="user_pw_mob">비밀번호 변경</h4>
 					<form class="password_form" id="changePwd" action="my/changePwd"
 						method="POST">
-						<h4>현재 비밀번호</h4>
-						<input type="password" placeholder="패스워드를 입력하세요."
-							id="user_password2" />
-						<p class="">※ 비밀번호가 일치하지 않습니다.</p>
-						<h4>새 비밀번호</h4>
-						<input type="password" placeholder="패스워드를 입력하세요."
-							id="new_user_password" name="user_password" />
-						<p class="">※ 유효한 패스워드가 아닙니다.</p>
-						<h4>비밀번호 확인</h4>
-						<input type="password" placeholder="패스워드를 입력하세요."
-							id="chk_user_password" />
-						<p class="">※ 비밀번호가 일치하지 않습니다.</p>
-						<input type="text" hidden="hidden" name="user_id"
-							value="${sessionScope.authInfo.user_id }">
-						<button type="submit">수정하기</button>
+						<ul>
+							<li>
+								<h4>현재 비밀번호</h4>
+							</li>
+							<li><input type="password" placeholder="패스워드를 입력하세요."
+								id="user_password2" /></li>
+							<li>
+								<h4>새 비밀번호</h4>
+							</li>
+							<li><input type="password" placeholder="패스워드를 입력하세요."
+								id="new_user_password" name="user_password" /></li>
+							<li>
+								<h4>비밀번호 확인</h4>
+							</li>
+							<li><input type="password" placeholder="패스워드를 입력하세요."
+								id="chk_user_password" /> <input type="text" hidden="hidden"
+								name="user_id" value="${sessionScope.authInfo.user_id }">
+							</li>
+						</ul>
+
+						<button type="submit">변경하기</button>
+					</form>
+
+					<h4 class="user_del">회원탈퇴</h4>
+					<form class="delete_form" id="deletefrm" method="post"
+						action="my/delete">
+						<p>※ 대출/예약된 도서가 있을 시 탈퇴가 불가합니다.</p>
+						<button type="submit" style="background-color: brown;">탈퇴하기</button>
 					</form>
 				</div>
 
-				<p>- 회원 탈퇴</p>
-				<div>
-					<form class="delete_form" id="deletefrm" method="post"
-						action="my/delete">
-						<button type="submit">탈퇴</button>
-					</form>
-					<button id="cancel" type="button">취소</button>
-				</div>
 			</div>
+
+
+
 
 		</div>
 	</div>

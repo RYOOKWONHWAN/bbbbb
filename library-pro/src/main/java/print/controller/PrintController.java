@@ -59,7 +59,10 @@ public class PrintController {
 		System.out.println("query" + query);
 		System.out.println("cate" + cate); // 리퀘스트 파람 결과값 출력
 		List<BookmanageDTO> search_result = null; // 리스트 생성
-
+		String itt="";
+		if(option.equals("search_isbn")) {
+			itt=printService.isbnTotitleService(query);			
+		}
 		if (query.equals("")) { // 확인
 			System.out.println("쿼리값빔");
 		}
@@ -79,6 +82,7 @@ public class PrintController {
 		model.addAttribute("option", option); // 옵션
 		model.addAttribute("cate", cate); // 카테고리
 		model.addAttribute("count", totalCount); // 검색결과수
+		model.addAttribute("itt",itt);
 		return "books";
 
 	}

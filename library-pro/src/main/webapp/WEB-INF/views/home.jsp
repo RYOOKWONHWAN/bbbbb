@@ -44,7 +44,7 @@
 				<c:forEach var="dto" items="${plist}">
 					<div class="book_box">
 						<a
-							href="${pageContext.request.contextPath}/books/view?page=${dto.isbn}">
+							href="${pageContext.request.contextPath}/books/view?page=${dto.book_keynum}">
 							<img src="${dto.thumbnail }" alt="책 표지">
 							<h4>${dto.title }</h4>
 							<p>${dto.author }</p>
@@ -62,7 +62,7 @@
 				<c:forEach var="dto" items="${nlist}">
 					<div class="book_box">
 						<a
-							href="${pageContext.request.contextPath}/books/view?page=${dto.isbn}">
+							href="${pageContext.request.contextPath}/books/view?page=${dto.book_keynum}">
 							<img src="${dto.thumbnail }" alt="책 표지">
 							<h4>${dto.title }</h4>
 							<p>${dto.author }</p>

@@ -50,7 +50,10 @@ public class NoticeController {
 			this.pdto = new PageDTO(pv.getCurrentPage(), totalCount);
 			mav.addObject("pv", this.pdto);
 			mav.addObject("Number", pdto.getNumber());
+		}else {
+			mav.addObject("totalCount", totalCount);
 		}
+		
 		
 		mav.addObject("aList", userNoticeService.listProcess(this.pdto)); //공지사항 전체 추가
 		mav.addObject("topList", userNoticeService.toplistProcess()); //toplist 추가

@@ -21,30 +21,15 @@
 	<select id="count" resultType="int">
 		SELECT count(*) FROM booklist
 	</select>
-	<select id="searchByTitle" parameterType="string"
-		resultType="admin.bookmanage.dto.BookmanageDTO">
-		SELECT * FROM booklist WHERE title LIKE '%'||#{query}||'%'
+	<select id="searchByIsbn" parameterType="string"
+		resultType="string">
+		SELECT title FROM booklist WHERE isbn=#{isbn}
 
 	</select>
-	<select id="searchByAuthor" parameterType="string"
-		resultType="admin.bookmanage.dto.BookmanageDTO">
-		SELECT * FROM booklist WHERE author LIKE '%'||#{query}||'%'
 
-	</select>
-	<select id="searchByPub" parameterType="string"
-		resultType="admin.bookmanage.dto.BookmanageDTO">
-		SELECT * FROM booklist WHERE publisher LIKE
-		'%'||#{query}||'%'
-	</select>
 	<select id="check" parameterType="string" resultType="int">
 		select
 		count(*) from booklist where title like #{query}||'%'
-	</select>
-
-	<select id="searchByCat" parameterType="string"
-		resultType="admin.bookmanage.dto.BookmanageDTO">
-		select * from booklist where category_s like #{cate}||'%'
-
 	</select>
 
 	<select id="search" parameterType="java.util.Map"
@@ -61,6 +46,9 @@
 			</if>
 			<if test="option eq 'search_publisher'">
 				WHERE publisher LIKE '%'||#{query}||'%'
+			</if>
+			<if test="option eq 'search_isbn'">
+				WHERE isbn LIKE '%'||#{query}||'%'
 			</if>
 		</if>
 		<if test="cate != null and query != null">
@@ -87,8 +75,17 @@
 		ORDER BY book_keynum desc
 		) x
 		) y
-		WHERE y.rm BETWEEN #{page.startRow} AND
-		#{page.endRow}
+		<if test="page eq null">
+			WHERE y.rm BETWEEN 0 AND
+			0
+		</if>
+		<if test="page != null">
+			WHERE y.rm BETWEEN #{page.startRow} AND
+			#{page.endRow}
+		</if>
+
+
+
 	</select>
 	<select id="searchcount" parameterType="java.util.Map"
 		resultType="int">
@@ -102,6 +99,9 @@
 			</if>
 			<if test="option eq 'search_publisher'">
 				WHERE publisher LIKE '%'||#{query}||'%'
+			</if>
+			<if test="option eq 'search_isbn'">
+				WHERE isbn LIKE '%'||#{query}||'%'
 			</if>
 		</if>
 		<if test="cate != null and query != null">
@@ -142,9 +142,11 @@
                 WHERE receive_date >= add_months(sysdate, -1)
 								ORDER BY receive_date DESC 
                 )d
-		WHERE d.rm BETWEEN #{startRow} AND #{endRow} 
+                	
+                				
+		WHERE d.rm BETWEEN #{startRow} AND #{endRow}
+	]]>
 
-		]]>
 	</select>
 
 	<select id="nBookCount" resultType="int">
@@ -178,13 +180,16 @@
 	</select>
 	<select id="pBookCount" resultType="int">
 		SELECT count(*)
-		FROM booklist a, (SELECT
+		FROM booklist
+		a, (SELECT
 		isbn, AVG(star_num) AS avg_rating,
-		count(star_num) as countisbn
+		count(star_num) as
+		countisbn
 		FROM
 		book_review
 		GROUP BY isbn)b , (
-		SELECT book_keynum, COUNT(*) AS
+		SELECT book_keynum,
+		COUNT(*) AS
 		return_count
 		FROM user_booklist
 		WHERE borrow_state = '반납'
@@ -192,7 +197,8 @@
 		book_keynum
 		ORDER BY return_count DESC
 		)c
-		WHERE a.isbn = b.isbn(+) and
+		WHERE a.isbn =
+		b.isbn(+) and
 		a.book_keynum = c.book_keynum
 
 

@@ -2,6 +2,8 @@ package user.dao;
 
 import java.util.List;
 
+import org.w3c.dom.Element;
+
 import admin.bookmanage.dto.BookmanageDTO;
 import user.dto.AuthInfo;
 import user.dto.UserDTO;
@@ -35,4 +37,8 @@ public interface UserDAO {
 	
 	public List<BookmanageDTO> pbookprint();
 	public List<BookmanageDTO> nbookprint();
+	
+	// 도서마루 추천 api
+	public String getTagValue(String tag, Element eElement);
+
 }

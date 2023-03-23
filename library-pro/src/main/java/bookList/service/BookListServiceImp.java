@@ -67,6 +67,14 @@ public class BookListServiceImp implements BookListService{
 		return bookListDao.getId(keynum);
 	}
 	
+	@Override
+	public int countService() {
+		// TODO Auto-generated method stub
+		return bookListDao.count();
+	}
+	
+
+
 
 
 }
